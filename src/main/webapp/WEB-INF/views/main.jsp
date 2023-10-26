@@ -26,7 +26,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="z-index: 10">
            <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="">SellAS</a>
-                <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></button>
+                <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
            </div>
         </nav>
         <!-- Header-->
@@ -245,7 +245,7 @@
      <footer id="footer">
             <div class="container">
 	            <ul class="menubar">
-	            	<li><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
+	            	<li onclick="location.href='./'"><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
 	            	<li><i class="xi-message xi-2x"></i><div id="menu">채팅</div></li>
 	            	<li><i class="xi-profile xi-2x"></i><div id="menu">마이페이지</div></li>
 	            </ul>
