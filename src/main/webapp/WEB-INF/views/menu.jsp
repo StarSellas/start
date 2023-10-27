@@ -43,9 +43,9 @@
 
 				<div>게시판</div>	
 				 <ul>
-                      <li><a href="/board?board=1">공지사항</a></li>
-                      <li><a href="/board?board=2">판매요청</a></li>
-                      <li><a href="/board?board=3">나눔</a></li>
+                      <li><a href="/board?cate=1">공지사항</a></li>
+                      <li><a href="/board?cate=2">판매요청</a></li>
+                      <li><a href="/board?cate=3">나눔</a></li>
                  </ul>
 
 			</div>

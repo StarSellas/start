@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+#boardList{
+   margin: auto;
+   margin-top: 20px;
+   margin-bottom: 20px;
+   padding: 0;
+   width: 80%;
+   height: 70%;
+}
+
+#cate{
+	text-decoration: none;
+	color: gray;
+	border: gray 1px solid;
+}
+
+#cateBtn{
+   width: 150px;
+   height: 30px;
+}
+.writeBtnBox{
+   margin: 20px;
+}
+.writeBtn{
+   flex: right;
+}

@@ -19,6 +19,8 @@
         
         <!-- ******************* 추가 *********************** -->
         <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+        <link href="css/   " rel="stylesheet">
+        <script src="./js/jquery-3.7.0.min.js"></script>
         
     </head>
     <body>
@@ -53,7 +55,7 @@
         <footer id="footer">
             <div class="container">
 	            <ul class="menubar">
-	            	<li><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
+	            	<li onclick="location.href='./'"><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
 	            	<li><i class="xi-message xi-2x"></i><div id="menu">채팅</div></li>
 	            	<li><i class="xi-profile xi-2x"></i><div id="menu">마이페이지</div></li>
 	            </ul>

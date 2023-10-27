@@ -19,6 +19,8 @@
         
         <!-- ******************* 추가 *********************** -->
         <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+        <link href="css/   " rel="stylesheet">
+        <script src="./js/jquery-3.7.0.min.js"></script>
         
     </head>
     <body>
@@ -40,9 +42,23 @@
             <div class="container px-4 px-lg-5 mt-5" style="z-index: 10">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     
-                  여기에 추가해주세요
+                 <div>글수정페이지</div>
                     
-                   
+                   <div>
+						<form action="./boardEdit" method="post" id="form">
+							<div class="titleBox">
+								<input type="text" class="" id="btitle" name="btitle" value="${detail.btitle }">
+							</div>
+							<div class="contentBox">
+								<textarea class="contentBox" name="bcontent">${detail.bcontent }</textarea>
+								<input type="hidden" name="bno" value="${detail.bno}">
+								<input type="hidden" name="cate" value="${param.cate}">
+							</div>
+							<div class="buttonBox">
+								<button type="submit" class="editbtn">수정하기</button>
+							</div>
+						</form>
+					</div>
                    
                    
                 </div>
@@ -53,7 +69,7 @@
         <footer id="footer">
             <div class="container">
 	            <ul class="menubar">
-	            	<li><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
+	            	<li onclick="location.href='./'"><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
 	            	<li><i class="xi-message xi-2x"></i><div id="menu">채팅</div></li>
 	            	<li><i class="xi-profile xi-2x"></i><div id="menu">마이페이지</div></li>
 	            </ul>

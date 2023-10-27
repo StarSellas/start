@@ -2,16 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellas.web.board.BoardDAO">
 	
-	<select id="noticeList" parameterType="Integer" resultType="Map">
-		SELECT bno, btitle, muuid, bdate, bread FROM board
-		Where sno=1
-		ORDER BY bno DESC 
-		LIMIT 0, 10
+	<select id="boardList" parameterType="Integer" resultType="Map">
+		SELECT *, (SELECT COUNT(*) FROM boardview WHERE sno = #{cate}) AS COUNT
+			FROM(
+				SELECT CAST(@ROWNUM:=@ROWNUM+1 AS UNSIGNED) AS rowNum,
+				b.* FROM boardview b, (SELECT @ROWNUM:= 0) AS R
+				WHERE b.sno = #{cate}
+				ORDER BY b.bno ASC) bb
+			ORDER BY bb.bno DESC
+			LIMIT 0, 10
 	</select>
-	
 	
 	<select id="setupboardList" parameterType="Integer" resultType="Map">
 		SELECT * FROM setupboard 
 	</select>
+	
+	<insert id="boardWrite" parameterType="Map">
+		INSERT INTO board (sno, muuid, btitle, bcontent)
+		VALUES (#{cate}, #{muuid}, #{btitle}, #{bcontent})
+		
+		<selectKey resultType="Integer" keyProperty="bno" order="AFTER">
+			 SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<select id="boardDetail" parameterType="Integer" resultType="Map">
+		SELECT * FROM boardview 
+		WHERE bno=#{bno}
+	</select>
+	
+	<update id="boardEdit" parameterType="Map">
+		UPDATE board SET btitle=#{btitle}, bcontent=#{bcontent}, bdelete=1
+		WHERE bno=#{bno}
+	</update>
+
+	<update id="boardDelete" parameterType="Map">
+		UPDATE board SET bdelete=0
+		WHERE bno=#{bno}
+	</update>
+
 
 </mapper>
