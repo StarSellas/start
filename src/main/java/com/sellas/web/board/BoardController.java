@@ -22,7 +22,6 @@ public class BoardController {
 
 		List<Map<String, Object>> setupboardList = boardService.setupboardList(cate);
 		List<Map<String, Object>> boardList = boardService.boardList(cate);
-		//System.out.println(boardList);
 		model.addAttribute("list", boardList);
 		model.addAttribute("board", setupboardList);
 		
@@ -56,9 +55,13 @@ public class BoardController {
 	public String boardDetail(@RequestParam("bno") int bno, Model model) {
 		//System.out.println("디테일의 bno : " +  bno);
 		Map<String, Object> detailList = boardService.boardDetail(bno);
-		//System.out.println(detailList); 
+		List<Map<String, Object>> commentList = boardService.commentList(bno);
+		//System.out.println(detailList);
 		//{bno=11, bread=0, mnickname=셀라스, commentcount=0, bdate=12:29:22, sno=2, btitle=글써, bcontent=글써, mno=1}
 		model.addAttribute("detail", detailList);
+		model.addAttribute("comments", commentList);
+		//System.out.println(commentList);
+		//{bno=5, mnickname=셀라스, cdate=17:21:09, cno=1, ccontent=댓글입니다, clike=0}
 		
 		return "boardDetail";
 	}
@@ -102,7 +105,11 @@ public class BoardController {
 	
 	// **************************************** 댓글 ****************************************
 	
-	
+	@GetMapping("cdelete")
+	public String cdelete(@RequestParam int cno) {
+		
+		return "";
+	}
 	
 	
 	

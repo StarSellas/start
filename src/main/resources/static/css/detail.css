@@ -10,13 +10,47 @@
 	padding: 0;
 	width: 100%;
 }
-.buttonBox{
+.bBtnBox{
 	margin: 5px;
 	padding: 0;
 	float: right;
 }
 
+/****************** comments *******************/
 
 .commentContainer{
 	width: 80%;
+	
+}
+.commentBox{
+	margin: 0;
+	padding: 0;
+	width: 100%
+}
+.cContent{
+	width: 100%
+}
+.cWholeBtn{
+	width: 100%;
+	margin: 5px;
+}
+.cComtent{
+	width: 100%; 
+}
+.cWriteBox{
+	width: 80%;
+	margin: 5px;
+	padding: 0;
+	display: flex;
+}
+.cBtnBox{
+	width: 15%;
+	margin-left: 5px;
+}
+.cWriteBtn{
+	width: 100%;
+	float: right;
+}
+.commentsBtn{
+	float: right;
 }

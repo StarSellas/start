@@ -23,23 +23,33 @@
         <script src="./js/jquery-3.7.0.min.js"></script>
         
         <script type="text/javascript">
-       		 
+       		
+        	// 글수정
         	function bedit(bno){
-       			 //alert("수정할 글번호 : " + bno);
-       			 let edit = confirm("글을 수정하시겠습니까?")
-       			 //console.log(edit);
-       			 if(edit){
+       			 if(confirm("글을 수정하시겠습니까?")){
        				 location.href="/boardEdit?cate=${detail.sno}&bno=${detail.bno }";
        			 }
        		 }
         	
+        	// 글삭제
         	function bdelete(bno){
-      			 let bdelete = confirm("글을 삭제하시겠습니까?")
-       			 console.log(bdelete);
-      			 if(bdelete){
+      			 if(confirm("글을 삭제하시겠습니까?")){
        				 location.href="/boardDelete?cate=${detail.sno}&bno=${detail.bno }";
        			 }
         	}
+        	
+        	// 댓글삭제
+         	
+        	$(function(){
+				
+        		$("#cdeleteBtn").click(function(){
+        			alert("!");
+        		})
+        		
+        		
+        		
+        		
+        	});
         
         </script>
         
@@ -60,7 +70,7 @@
         <!-- Section-->
         <section class="py-5">
         
-            <div class="container px-4 px-lg-5 mt-5" style="z-index: 10"></div>
+            <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     
                   <h5>카테고리번호 : ${detail.sno }</h5>
@@ -72,18 +82,43 @@
 	                  <div class="contentBox">
 		                  <div>내용 : ${detail.bcontent }</div>
 	                  </div>
-	                  <div class="buttonBox">
+	                  <div class="bBtnBox">
 		                  <button onclick="bedit(${detail.bno})">글수정</button>
 		                  <button onclick="bdelete(${detail.bno})">글삭제</button>
 		              </div>
                   </div>  
                    
-                   <div class="commentContainer">댓글창영역</div>
+                   <hr>
+                   
+                   <div class="commentContainer">
+						<button class="cWholeBtn"><a href="#">댓글 전체보기</a></button>
+						<div class="commentBox">
+							<c:forEach items="${comments }" var="comments">
+								<input type="hidden" name="cno" value="${comments.cno }">
+								<input type="hidden" name="bno" value="${comments.bno }">
+								<div class="cContent">
+									<div>${comments.mnickname } // <span>${comments.cdate }</span></div>
+									<div>${comments.ccontent }</div>
+								</div>
+								<div class="commentsBtn">
+									<button id="ceditBtn">수정</button>
+									<button id="cdeleteBtn">삭제</button>
+								</div>
+							</c:forEach>
+						</div>
+						<div class="cWriteBox">
+							<textarea class="cComtent"></textarea>
+							<div class="cBtnBox">
+								<button class="cWriteBtn">등록</button>
+							</div>
+						</div>
+                   </div>
+                   
                    
                 </div>
-            </div>
-            
+        	</div>
         </section>
+        
         <!-- Footer-->
         <footer id="footer">
             <div class="container">

@@ -37,5 +37,9 @@ public class BoardService {
 		return boardDAO.boardDelete(map);
 	}
 
+	public List<Map<String, Object>> commentList(int bno) {
+		return boardDAO.commentList(bno);
+	}
+
 
 }

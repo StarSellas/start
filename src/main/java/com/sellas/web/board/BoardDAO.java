@@ -19,4 +19,6 @@ public interface BoardDAO {
 	int boardEdit(Map<String, Object> map);
 
 	int boardDelete(Map<String, Object> map);
+
+	List<Map<String, Object>> commentList(int bno);
 }
