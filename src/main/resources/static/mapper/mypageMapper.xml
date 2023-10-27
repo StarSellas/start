@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sellas.web.myPage.MyPageDAO">
+
+<select id="findId" parameterType="String" resultType="com.sellas.web.myPage.ReviewDTO">
+
+SELECT pno, tno, pseller, pbuyer, pstate FROM payment
+WHERE pno=#{pno} AND pstate=0
+
+</select>
+
+
+
+<insert id="inputReview" parameterType="com.sellas.web.myPage.ReviewDTO">
+INSERT INTO review (pno, muuid, rcontent, rpoint)
+VALUES(#{pno}, #{muuid}, #{rcontent}, #{rpoint})
+</insert>
+
+
+<update id="updatePoint" parameterType="com.sellas.web.myPage.ReviewDTO">
+
+UPDATE member SET mpoint=mpoint+#{rpoint} WHERE muuid=#{targetMember}
+
+</update>
+
+
+
+</mapper>
