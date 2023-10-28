@@ -26,8 +26,8 @@
 		</selectKey>
 	</insert>
 
-	<select id="boardDetail" parameterType="Integer" resultType="Map">
-		SELECT * FROM boardview 
+	<select id="boardDetail" parameterType="Map" resultType="Map">
+		SELECT *, (SELECT sname from setupboard WHERE sno=#{cate}) AS sname FROM boardview 
 		WHERE bno=#{bno}
 	</select>
 	
@@ -41,9 +41,22 @@
 		WHERE bno=#{bno}
 	</update>
 
-	<select id="commentList" parameterType="Integer" resultType="Map">
+	<select id="commentList" parameterType="Map" resultType="Map">
 		SELECT * FROM commentview
 		WHERE bno=#{bno}
 	</select>
+	
+	<!-- ************ 댓글 ************ -->
+
+	<update id="cdelete" parameterType="Map">
+		UPDATE comment SET cdelete=0
+		WHERE cno=#{cno}
+	</update>
+
+	<insert id="commentWrite" parameterType="Map">
+		INSERT INTO comment (muuid, ccontent, bno)
+		VALUES (#{muuid}, #{ccontent}, #{bno})
+	</insert>
+	
 
 </mapper>

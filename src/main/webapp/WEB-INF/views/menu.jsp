@@ -27,7 +27,7 @@
 	<nav class="navbar navbar-expand-lg navbar-light bg-light"
 		style="z-index: 10">
 		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="">SellAS</a>
+			<a class="navbar-brand" href="./">SellAS</a>
             <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></button>
 		</div>
 	</nav>
@@ -38,10 +38,10 @@
         <!-- Section-->
         <section class="py-5">
         
-            <div class="container px-4 px-lg-5 mt-5" style="z-index: 10">
+            <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-				<div>게시판</div>	
+				<div><a href="/board">게시판</a></div>	
 				 <ul>
                       <li><a href="/board?cate=1">공지사항</a></li>
                       <li><a href="/board?cate=2">판매요청</a></li>

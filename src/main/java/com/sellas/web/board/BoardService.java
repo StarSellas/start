@@ -25,8 +25,8 @@ public class BoardService {
 		return boardDAO.boardWrite(map);
 	}
 
-	public Map<String, Object> boardDetail(int bno) {
-		return boardDAO.boardDetail(bno);
+	public Map<String, Object> boardDetail(Map<String, Object> map) {
+		return boardDAO.boardDetail(map);
 	}
 
 	public int boardEdit(Map<String, Object> map) {
@@ -37,9 +37,19 @@ public class BoardService {
 		return boardDAO.boardDelete(map);
 	}
 
-	public List<Map<String, Object>> commentList(int bno) {
-		return boardDAO.commentList(bno);
+	public List<Map<String, Object>> commentList(Map<String, Object> map) {
+		return boardDAO.commentList(map);
 	}
+
+	public int cdelete(Map<String, Object> map) {
+		return boardDAO.cdelete(map);
+	}
+
+	public int commentWrite(Map<String, Object> map) {
+		map.put("muuid", "asdfda321412asd");
+		return boardDAO.commentWrite(map);
+	}
+
 
 
 }

@@ -16,12 +16,14 @@ public class BoardController {
 	@Autowired 
 	private BoardService boardService;
 	
-	// (카테고리별) 게시판페이지
+	// (카테고리별)게시판페이지
 	@GetMapping("/board")
-	public String notice(@RequestParam(value = "cate", required = false, defaultValue = "1") int cate, Model model) {
+	public String board(@RequestParam(value = "cate", required = false, defaultValue = "1") int cate, Model model) {
 
 		List<Map<String, Object>> setupboardList = boardService.setupboardList(cate);
 		List<Map<String, Object>> boardList = boardService.boardList(cate);
+		//System.out.println(setupboardList);
+		//[{sno=1, sname=공지사항}, {sno=3, sname=나눔}, {sno=2, sname=판매요청}]
 		model.addAttribute("list", boardList);
 		model.addAttribute("board", setupboardList);
 		
@@ -50,15 +52,15 @@ public class BoardController {
 		}
 	}
 	
-	// 게시글 페이지
+	// 게시글 + 댓글 페이지
 	@GetMapping("boardDetail")
-	public String boardDetail(@RequestParam("bno") int bno, Model model) {
-		//System.out.println("디테일의 bno : " +  bno);
-		Map<String, Object> detailList = boardService.boardDetail(bno);
-		List<Map<String, Object>> commentList = boardService.commentList(bno);
-		//System.out.println(detailList);
-		//{bno=11, bread=0, mnickname=셀라스, commentcount=0, bdate=12:29:22, sno=2, btitle=글써, bcontent=글써, mno=1}
-		model.addAttribute("detail", detailList);
+	public String boardDetail(@RequestParam Map<String, Object> map, Model model) {
+		//System.out.println("디테일map : " +  map); // 디테일map : {cate=2, bno=5}
+		Map<String, Object> detailList = boardService.boardDetail(map);
+		List<Map<String, Object>> commentList = boardService.commentList(map);
+		//System.out.println("디테일페이지 : " + detailList);
+		//{bno=5, bread=0, mnickname=셀라스, commentcount=2, bdate=14:27:46, sno=2, sname=판매요청, btitle=판매요청글씀, bcontent=ㅁㅇㄴㄹ, mno=1}
+		model.addAttribute("bdetail", detailList);
 		model.addAttribute("comments", commentList);
 		//System.out.println(commentList);
 		//{bno=5, mnickname=셀라스, cdate=17:21:09, cno=1, ccontent=댓글입니다, clike=0}
@@ -68,8 +70,8 @@ public class BoardController {
 	
 	// 게시글수정 페이지
 	@GetMapping("boardEdit")
-	public String boardEdit(@RequestParam("bno") int bno, Model model) {
-		Map<String, Object> detailList = boardService.boardDetail(bno);
+	public String boardEdit(@RequestParam Map<String, Object> map, Model model) {
+		Map<String, Object> detailList = boardService.boardDetail(map);
 		//System.out.println(detailList);
 		// {bno=11, bread=0, mnickname=셀라스, commentcount=0, bdate=12:29:22, sno=2, btitle=글써, bcontent=글써, mno=1}
 		model.addAttribute("detail", detailList);
@@ -99,21 +101,58 @@ public class BoardController {
 		//System.out.println(map);
 		int result = boardService.boardDelete(map);
 		//System.out.println(result);
-		
-		return "redirect:/board?cate="+map.get("cate");
+		if(result == 1) {
+			return "redirect:/board?cate="+map.get("cate");
+		} else {
+			System.out.println("글삭제 실패");
+			return "redirect:/board?cate="+map.get("cate");
+		}
 	}
 	
 	// **************************************** 댓글 ****************************************
 	
-	@GetMapping("cdelete")
-	public String cdelete(@RequestParam int cno) {
+	
+	// 댓글쓰기
+	@PostMapping("commentWrite")
+	public String commentWrite(@RequestParam Map<String, Object> map) {
+		//System.out.println(map); // {ccontent=댓글다시써, cate=2, bno=4}
+		int result = boardService.commentWrite(map);
 		
-		return "";
+		if(result == 1) {
+			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
+		} else {
+			System.out.println("댓글쓰기 실패");
+			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
+		}
+	}
+	
+	// 댓글삭제
+	@GetMapping("cdelete")
+	public String cdelete(@RequestParam Map<String, Object> map) {
+		System.out.println("잡아온값 :" +map);
+		// 잡아온값 :{cate=2, bno=5, cno=1}
+		int result = boardService.cdelete(map);
+		//System.out.println("결과값 :" + result);
+		
+		if(result == 1) {
+			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
+		} else {
+			System.out.println("댓글삭제 실패");
+			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
+		}
 	}
 	
 	
-	
-	
+	// 카테고리 테스트
+	@GetMapping("test")
+	public String boardTest(@RequestParam(value = "cate", required = false, defaultValue = "1") int cate, Model model) {
+		List<Map<String, Object>> setupboardList = boardService.setupboardList(cate);
+		List<Map<String, Object>> boardList = boardService.boardList(cate);
+		model.addAttribute("list", boardList);
+		model.addAttribute("board", setupboardList);
+		
+		return "test";
+	}
 	
 	
 	

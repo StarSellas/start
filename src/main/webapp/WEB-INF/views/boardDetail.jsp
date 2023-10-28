@@ -25,32 +25,40 @@
         <script type="text/javascript">
        		
         	// 글수정
-        	function bedit(bno){
+        	function bedit(sno, bno){
        			 if(confirm("글을 수정하시겠습니까?")){
-       				 location.href="/boardEdit?cate=${detail.sno}&bno=${detail.bno }";
+       				//console.log(sno);
+       				//console.log(bno);
+       				location.href="/boardEdit?cate="+sno+"&bno="+bno;
        			 }
        		 }
         	
         	// 글삭제
-        	function bdelete(bno){
+        	function bdelete(sno, bno){
       			 if(confirm("글을 삭제하시겠습니까?")){
-       				 location.href="/boardDelete?cate=${detail.sno}&bno=${detail.bno }";
-       			 }
+      				location.href="/boardDelete?cate="+sno+"&bno="+bno;
+        		}
         	}
         	
         	// 댓글삭제
-         	
-        	$(function(){
-				
-        		$("#cdeleteBtn").click(function(){
-        			alert("!");
-        		})
-        		
-        		
-        		
-        		
+        	function cdelete(cno){
+      			 if(confirm("댓글을 삭제하시겠습니까?")){
+      				location.href="/cdelete?cate=${param.cate}&bno=${param.bno}"+"&cno="+cno;
+        		}
+        	}
+        	
+        	// 댓글수정
+        	 $(function() {
+        	
+        		 $(".cWriteBtn").click(function(){
+        			 
+        			 
+        		 })
+
+        	
         	});
-        
+        	
+        	
         </script>
         
     </head>
@@ -60,7 +68,7 @@
 		style="z-index: 10">
 		<div class="container px-4 px-lg-5">
 			<a class="navbar-brand" href="">SellAS</a>
-            <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></button>
+            <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
 		</div>
 	</nav>
 	<!-- Header-->
@@ -73,47 +81,64 @@
             <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     
-                  <h5>카테고리번호 : ${detail.sno }</h5>
+                  <div><a href="/board?cate=${bdetail.sno }">${bdetail.sname }</a></div>
+                  
                   <div class="detailContainer">
 	                  <div class="titleBox">
-	                  	<div> 제목 : ${detail.btitle } // <span>조회수 : ${detail.bread }</span></div>
-	                  	<div>글쓴이 : ${detail.mnickname } // <span>날짜 : ${detail.bdate }</span></div>
+	                  	<div> 제목 : ${bdetail.btitle } // <span>조회수 : ${bdetail.bread }</span></div>
+	                  	<div>글쓴이 : ${debdetailail.mnickname } // <span>날짜 : ${bdetail.bdate }</span></div>
 	                  </div>
 	                  <div class="contentBox">
-		                  <div>내용 : ${detail.bcontent }</div>
+		                  <div>내용 : ${bdetail.bcontent }</div>
 	                  </div>
 	                  <div class="bBtnBox">
-		                  <button onclick="bedit(${detail.bno})">글수정</button>
-		                  <button onclick="bdelete(${detail.bno})">글삭제</button>
+		                  <button onclick="bedit(${bdetail.sno}, ${bdetail.bno})">글수정</button>
+		                  <button onclick="bdelete(${bdetail.sno}, ${bdetail.bno})">글삭제</button>
 		              </div>
                   </div>  
                    
                    <hr>
                    
+                   <!-- 댓글창 -->
                    <div class="commentContainer">
-						<button class="cWholeBtn"><a href="#">댓글 전체보기</a></button>
-						<div class="commentBox">
-							<c:forEach items="${comments }" var="comments">
-								<input type="hidden" name="cno" value="${comments.cno }">
-								<input type="hidden" name="bno" value="${comments.bno }">
-								<div class="cContent">
-									<div>${comments.mnickname } // <span>${comments.cdate }</span></div>
-									<div>${comments.ccontent }</div>
-								</div>
-								<div class="commentsBtn">
-									<button id="ceditBtn">수정</button>
-									<button id="cdeleteBtn">삭제</button>
-								</div>
-							</c:forEach>
-						</div>
-						<div class="cWriteBox">
-							<textarea class="cComtent"></textarea>
-							<div class="cBtnBox">
-								<button class="cWriteBtn">등록</button>
+					<c:choose>
+						<c:when test="${bdetail.commentcount eq 0}">
+							<div>댓글이 없습니다.</div>
+						</c:when>
+						<c:otherwise>
+							<button class="cWholeBtn" onclick="location.href='./commentDetail'">댓글 전체보기</button>
+							<div class="commentBox">
+								<c:forEach items="${comments }" var="comments">
+									
+									<div class="cContent">
+										<div class="cno">댓글번호 : ${comments.cno }</div>
+										<div class="bno">글번호 : ${comments.bno }</div>
+										<div>${comments.mnickname }	// <span>${comments.cdate }</span></div>
+										<div>${comments.ccontent }</div>
+									</div>
+									<div class="commentsBtn">
+										<button class="cedit">수정</button>
+										<button onclick="cdelete(${comments.cno })">삭제</button>
+									</div>
+								</c:forEach>
 							</div>
+						</c:otherwise>
+					</c:choose>
+
+					<!-- 댓글쓰기창 -->
+						<div class="cWriteBox">
+							<form action="./commentWrite" method="post">
+								<textarea class="cComtent" name="ccontent"></textarea>
+								<input type="hidden" name="cate" value="${param.cate }">
+								<input type="hidden" name="bno" value="${param.bno }">
+								<div class="cBtnBox">
+									<button type="submit" class="cWriteBtn">등록</button>
+								</div>
+							</form>
 						</div>
+						
                    </div>
-                   
+
                    
                 </div>
         	</div>

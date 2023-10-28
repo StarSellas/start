@@ -9,13 +9,12 @@
    height: 70%;
 }
 
-#cate{
+#cateBtn{
 	text-decoration: none;
 	color: gray;
-	border: gray 1px solid;
 }
 
-#cateBtn{
+#otherCateBtn{
    width: 150px;
    height: 30px;
 }
