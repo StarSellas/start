@@ -43,23 +43,63 @@
         	// 댓글삭제
         	function cdelete(cno){
       			 if(confirm("댓글을 삭제하시겠습니까?")){
-      				location.href="/cdelete?cate=${param.cate}&bno=${param.bno}"+"&cno="+cno;
+      				location.href="/commentDelete?cate=${param.cate}&bno=${param.bno}"+"&cno="+cno;
         		}
         	}
         	
+			 
+        </script>
+        <script type="text/javascript">
         	// 댓글수정
         	 $(function() {
         	
-        		 $(".cWriteBtn").click(function(){
+        		 $(".cedit").click(function(){
+        			 //alert("!");
+        			 let cno = $(this).parent().siblings(".cContentBox").children(".cno").val();
+        			 let bno = ${param.bno};
+        			 let cate = ${param.cate};
+        			 let cdeleteButton = $(this).siblings(".cdelete");
+        			 // 댓글내용
+        			 let ccontent = $(this).parent().siblings(".cContentBox").children(".content").text();
+        			 // 댓글박스
+        			 let contentBox = $(this).parent().siblings(".cContentBox");
+        			 // 댓글버튼박스
+        			 let cButtonBox = $(this).parent(".commentsBtn");
+        			 // 수정댓글창
+        			 let newContentBox = ""
         			 
+        				 newContentBox += '<div class="newWriteBox">'
+        					    +  '<form action="./commentEdit" method="post">'
+        					    +  '<input type="hidden" name="bno" value="'+bno+'">'
+        					    +  '<input type="hidden" name="cno" value="'+cno+'">'
+        					    +  '<input type="hidden" name="cate" value="'+cate+'">'
+        					    +  '<textarea class="cContent" name="ccontent">'
+        					    +  ccontent
+        					    +  '</textarea>'
+        					    +  '<div class="commentsBtn">'
+        					    +  '<button type="submit">등록</button>' // 등록 버튼
+        					    +  '<button class="reset">취소</button>'
+        					    +  '</div>'
+        					    +  '</form>'
+        					    +  '</div>';
+        			 			   
+        			 			   
+        			 contentBox.after(newContentBox);
+        			 contentBox.hide();
+        			 cButtonBox.hide();
         			 
-        		 })
+        			 // 수정취소버튼클릭 
+        			 $(".reset").click(function(){
+        				 $(this).parents(".newWriteBox").remove();
+        				 contentBox.show();
+            			 cButtonBox.show();
+        			 });
+        			 
+        		 }) // cedit 클릭이벤트
 
-        	
         	});
-        	
-        	
         </script>
+        	
         
     </head>
     <body>
@@ -107,31 +147,30 @@
 						</c:when>
 						<c:otherwise>
 							<button class="cWholeBtn" onclick="location.href='./commentDetail'">댓글 전체보기</button>
-							<div class="commentBox">
-								<c:forEach items="${comments }" var="comments">
-									
-									<div class="cContent">
-										<div class="cno">댓글번호 : ${comments.cno }</div>
-										<div class="bno">글번호 : ${comments.bno }</div>
-										<div>${comments.mnickname }	// <span>${comments.cdate }</span></div>
-										<div>${comments.ccontent }</div>
-									</div>
-									<div class="commentsBtn">
-										<button class="cedit">수정</button>
-										<button onclick="cdelete(${comments.cno })">삭제</button>
-									</div>
-								</c:forEach>
-							</div>
+							<c:forEach items="${comments }" var="comments">
+								<div class="commentBox">
+										<div class="cContentBox">
+											<input type="hidden" class="cno" value="${comments.cno }"/>
+											<div>${comments.mnickname }	// <span>${comments.cdate }</span></div>
+											<div class="content">${comments.ccontent }</div>
+										</div>
+										<div class="commentsBtn">
+											<button class="cedit">수정</button>
+											<button class="cdelete" onclick="cdelete(${comments.cno })">삭제</button>
+										</div>
+										<hr>
+								</div>
+							</c:forEach>
 						</c:otherwise>
 					</c:choose>
 
 					<!-- 댓글쓰기창 -->
 						<div class="cWriteBox">
 							<form action="./commentWrite" method="post">
-								<textarea class="cComtent" name="ccontent"></textarea>
+								<textarea class="cContent" name="ccontent"></textarea>
 								<input type="hidden" name="cate" value="${param.cate }">
 								<input type="hidden" name="bno" value="${param.bno }">
-								<div class="cBtnBox">
+								<div class="commentsBtn">
 									<button type="submit" class="cWriteBtn">등록</button>
 								</div>
 							</form>

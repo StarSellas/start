@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BoardService {
@@ -19,7 +20,7 @@ public class BoardService {
 	public List<Map<String, Object>> setupboardList(int cate) {
 		return boardDAO.setupboardList(cate);
 	}
-
+	@Transactional
 	public int boardWrite(Map<String, Object> map) {
 		map.put("muuid", "asdfda321412asd");
 		return boardDAO.boardWrite(map);
@@ -41,8 +42,8 @@ public class BoardService {
 		return boardDAO.commentList(map);
 	}
 
-	public int cdelete(Map<String, Object> map) {
-		return boardDAO.cdelete(map);
+	public int commentDelete(Map<String, Object> map) {
+		return boardDAO.commentDelete(map);
 	}
 
 	public int commentWrite(Map<String, Object> map) {
@@ -50,6 +51,14 @@ public class BoardService {
 		return boardDAO.commentWrite(map);
 	}
 
+	public int commentEdit(Map<String, Object> map) {
+		return boardDAO.commentEdit(map);
+	}
 
+	@Transactional
+	public int boardWrite2(Map<String, Object> map) {
+		return boardDAO.boardWrite2(map);
+
+	}
 
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sellas.web.board.BoardDAO">
+	
+	<insert id="boardWrite" parameterType="Map">
+		INSERT INTO board (sno, muuid, btitle, bcontent)
+		VALUES (#{cate}, #{muuid}, #{btitle}, #{bcontent})
+		
+		<selectKey resultType="Integer" keyProperty="bno" order="AFTER">
+			 SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<insert id="boardWrite2" parameterType="Map">
+		INSERT INTO boardimage (bno, bimage)
+		VALUES (#{bno}, #{bimage})
+	</insert>
+	
+
+</mapper>
+

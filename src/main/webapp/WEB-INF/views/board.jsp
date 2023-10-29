@@ -29,7 +29,8 @@
       style="z-index: 10">
       <div class="container px-4 px-lg-5">
          <a class="navbar-brand" href="/">SellAS</a>
-            <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
+         <span>${sessionScope.muuid }</span>
+         <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
       </div>
    </nav>
    <!-- Header-->
@@ -42,7 +43,7 @@
             <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-
+				<!-- 현재 게시판 카테고리 띄우기 -->
 				<% Map<String, String[]> paramMap = request.getParameterMap();
 				if (paramMap.isEmpty()) { // URL에 쿼리 매개변수가 없는 경우 %>
 					<a id="cateBtn" href="/board?cate=1">공지사항</a>
@@ -54,6 +55,7 @@
 					</c:forEach>
 				<% } %>
 			
+				<!-- 게시판 카테고리 드롭다운 -->
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4" id="cateBar">
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#"

@@ -1,7 +1,11 @@
 package com.sellas.web.board;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class BoardController {
@@ -41,14 +48,47 @@ public class BoardController {
 	
 	// 글쓰기 로직
 	@PostMapping("/boardWrite")
-	public String boardWrite(@RequestParam Map<String, Object> map) {
+	public String boardWrite(@RequestParam("boardimg")MultipartFile boardimg, 
+							@RequestParam Map<String, Object> map) {
+		// 파일이 있다면 업로드
+		if(!boardimg.isEmpty()) {
+			
+			HttpServletRequest request = 
+			         ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+			String path = request.getServletContext().getRealPath("/boardImgUpload");
+			System.out.println("경로: "+ path);
+			//경로: C:\Users\gogus\git\sellas\src\main\webapp\boardImgUpload
+
+			
+			System.out.println(boardimg.getOriginalFilename());
+			System.out.println(boardimg.getSize());
+			System.out.println(boardimg.getContentType());
+			//resource-28.jpg
+			//81618
+			//image/jpeg
+			File boardimgName = new File(path, boardimg.getOriginalFilename());
+			
+			try {
+				boardimg.transferTo(boardimgName);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("파일올림");
+			map.put("bimage", boardimg.getOriginalFilename());
+		}
+		
 		int result = boardService.boardWrite(map);
-		//System.out.println("bno는 :" + map.get("bno"));
-		if(result == 1) {
-			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
+		// System.out.println("bno는 :" + map.get("bno"));
+		int result2 = boardService.boardWrite2(map);
+		System.out.println(result2);
+		
+		if (result == 1 && result2 == 1) {
+			return "redirect:/boardDetail?cate=" + map.get("cate") + "&bno=" + map.get("bno");
 		} else {
 			System.out.println("글쓰기 실패");
-			return "redirect:/boardDetail?cate="+map.get("cate");
+			return "redirect:/boardDetail?cate=" + map.get("cate");
 		}
 	}
 	
@@ -127,17 +167,35 @@ public class BoardController {
 	}
 	
 	// 댓글삭제
-	@GetMapping("cdelete")
-	public String cdelete(@RequestParam Map<String, Object> map) {
+	@GetMapping("commentDelete")
+	public String commentDelete(@RequestParam Map<String, Object> map) {
 		System.out.println("잡아온값 :" +map);
 		// 잡아온값 :{cate=2, bno=5, cno=1}
-		int result = boardService.cdelete(map);
+		int result = boardService.commentDelete(map);
 		//System.out.println("결과값 :" + result);
 		
 		if(result == 1) {
 			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
 		} else {
 			System.out.println("댓글삭제 실패");
+			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
+		}
+	}
+	
+	// 댓글수정
+	@PostMapping("commentEdit")
+	public String commentEdit(@RequestParam Map<String, Object> map) {
+		
+		System.out.println(map);
+		//{bno=4, cno=3, cate=2, ccontent=댓글3수정}
+
+		int result = boardService.commentEdit(map);
+		System.out.println(result);
+		
+		if(result == 1) {
+			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
+		} else {
+			System.out.println("댓글수정 실패");
 			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
 		}
 	}

@@ -22,8 +22,12 @@ public interface BoardDAO {
 
 	List<Map<String, Object>> commentList(Map<String, Object> map);
 
-	int cdelete(Map<String, Object> map);
+	int commentDelete(Map<String, Object> map);
 
 	int commentWrite(Map<String, Object> map);
+
+	int commentEdit(Map<String, Object> map);
+
+	int boardWrite2(Map<String, Object> map);
 
 }

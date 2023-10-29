@@ -10,21 +10,13 @@
 				WHERE b.sno = #{cate}
 				ORDER BY b.bno ASC) bb
 			ORDER BY bb.bno DESC
-			LIMIT 0, 10
+			LIMIT 0, 20
 	</select>
 	
 	<select id="setupboardList" parameterType="Integer" resultType="Map">
 		SELECT * FROM setupboard 
 	</select>
 	
-	<insert id="boardWrite" parameterType="Map">
-		INSERT INTO board (sno, muuid, btitle, bcontent)
-		VALUES (#{cate}, #{muuid}, #{btitle}, #{bcontent})
-		
-		<selectKey resultType="Integer" keyProperty="bno" order="AFTER">
-			 SELECT LAST_INSERT_ID()
-		</selectKey>
-	</insert>
 
 	<select id="boardDetail" parameterType="Map" resultType="Map">
 		SELECT *, (SELECT sname from setupboard WHERE sno=#{cate}) AS sname FROM boardview 
@@ -32,7 +24,7 @@
 	</select>
 	
 	<update id="boardEdit" parameterType="Map">
-		UPDATE board SET btitle=#{btitle}, bcontent=#{bcontent}, bdelete=1
+		UPDATE board SET bdelete=1, btitle=#{btitle}, bcontent=#{bcontent}, bdate=CURRENT_TIMESTAMP
 		WHERE bno=#{bno}
 	</update>
 
@@ -48,7 +40,7 @@
 	
 	<!-- ************ 댓글 ************ -->
 
-	<update id="cdelete" parameterType="Map">
+	<update id="commentDelete" parameterType="Map">
 		UPDATE comment SET cdelete=0
 		WHERE cno=#{cno}
 	</update>
@@ -58,5 +50,9 @@
 		VALUES (#{muuid}, #{ccontent}, #{bno})
 	</insert>
 	
+	<update id="commentEdit" parameterType="Map">
+		UPDATE comment SET cdelete=1, ccontent=#{ccontent}, cdate=CURRENT_TIMESTAMP
+		WHERE cno=#{cno}
+	</update>
 
 </mapper>

@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -41,28 +42,51 @@
             <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-				<span>(카테고리 이동용)</span>
-				<c:forEach items="${board}" var="board">
-					<c:choose>
-						<c:when test="${param.cate eq board.sno || param.cate eq null}">
-							<span>${board.sname }(${board.sno })</span>
-						</c:when>
-						<c:otherwise>
-							<!-- ************ 드롭다운 버튼으로 만들예정 ************ -->
-							<span>${board.sname }</span>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
+				<!-- 현재 게시판 카테고리 띄우기 -->
+				<% Map<String, String[]> paramMap = request.getParameterMap();
+				if (paramMap.isEmpty()) { // URL에 쿼리 매개변수가 없는 경우 %>
+					<a id="cateBtn" href="/board?cate=1">공지사항</a>
+				<% } else {	// URL에 쿼리 매개변수가 있는 경우 %>
+					<c:forEach items="${board}" var="board">
+						<c:if test="${param.cate eq board.sno}">
+							<a id="cateBtn" href="/board?cate=${board.sno }">${board.sname }</a>
+						</c:if>
+					</c:forEach>
+				<% } %>
+			
+				<!-- 게시판 카테고리 드롭다운 -->
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4" id="cateBar">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+						role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						게시판
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li><a class="dropdown-item" href="/board?cate=1">공지사항</a></li>
+							<li><hr class="dropdown-divider" /></li>
+							<li><a class="dropdown-item" href="/board?cate=2">판매요청</a></li>
+							<li><hr class="dropdown-divider" /></li>
+							<li><a class="dropdown-item" href="/board?cate=3">나눔</a></li>
+						</ul>
+					</li>
+				</ul>
+				
+				
 					<div>
-						<form action="./boardWrite" method="post">
-							<div class="">
+						<form action="./boardWrite" method="post" enctype="multipart/form-data">
+							<div class="btitleBox">
 								<input type="text" class="" id="btitle" name="btitle" placeholder="제목을 입력해주세요">
 							</div>
 							<textarea id="bcontent" name="bcontent" placeholder="내용을 입력해주세요"></textarea>
+							<input type="file" name="boardimg" class="boardimg">
 							<input type="hidden" name="cate" value="${param.cate}">
-							<button type="submit" class="">글쓰기</button>
+							<div class="bwriteBtnBox">
+								<button type="submit" class="">글쓰기</button>
+							</div>
 						</form>
 					</div>
+					
+					
 				</div>
             </div>
             

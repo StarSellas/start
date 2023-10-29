@@ -26,6 +26,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="z-index: 10">
            <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="./">SellAS</a>
+                <span>${sessionScope.muuid }</span>
                 <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
            </div>
         </nav>
