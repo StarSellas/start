@@ -25,7 +25,7 @@ public class LoginService {
 		if(result != null) {
 			HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
             session.setAttribute("muuid", result.get("muuid"));
-            session.setAttribute("nickname", result.get("nickname"));
+            session.setAttribute("mnickname", result.get("mnickname"));
 			return true;
 		} else {
 			return false;
