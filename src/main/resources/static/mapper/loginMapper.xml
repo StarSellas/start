@@ -25,5 +25,5 @@
 	SET mpw=HEX(AES_ENCRYPT(#{pw}, 'sellas'))
 	WHERE mid=#{id} AND memail=#{email}
 </update>
-
+  
 </mapper>
