@@ -3,7 +3,7 @@
 <mapper namespace="com.sellas.web.login.LoginDAO">
 
 <select id="login" parameterType="Map" resultType="Map">
-	SELECT muuid
+	SELECT muuid, mnickname
 	FROM member
 	WHERE mid=#{id} AND mpw=HEX(AES_ENCRYPT(#{pw}, 'sellas'))
 </select>
