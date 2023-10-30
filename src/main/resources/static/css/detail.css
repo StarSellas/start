@@ -54,6 +54,10 @@
 .commentsBtn{
 	float: right;
 }
+.imgEditbtn{
+	width: 40px;
+	height: 30px;
+}
 
 .boardImg{
 	width: 200px;

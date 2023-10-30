@@ -23,87 +23,15 @@
         <script src="./js/jquery-3.7.0.min.js"></script>
         
         <script type="text/javascript">
-       		
-        	// 게시글 페이지의 이미지들을 imgArr배열에 넣는 함수
-	    	function imgCheck(){
-	    		
-	    		let bimagecount = ${bdetail.bimagecount};
-	    		//console.log("일단 이거 떠라 : " + bimagecount);
-	    		let imgArr=[];
-	    		let imgArrWithName = {};
-	    		let elements = document.getElementsByClassName("boardImgBox");
-	    		for (let i = 0; i < bimagecount; i++) {
-	    			imgArr[i] = elements[i].textContent;
-	    			imgArrWithName["num" + i] = imgArr[i];
-	    		}
-				
-				console.log(imgArrWithName);
-	    		return imgArrWithName;
-	    	}
         
-        	// 글수정
-        	$(function(){
-        		
-        		$("#bedit").click(function(){
+     		// 글수정
         			
-        			let sno = ${bdetail.sno};
-        			let bno = ${bdetail.bno};
-        			
-            		let bimagecount = ${bdetail.bimagecount};
-            		let imgArrWithName = {};
-            		imgArrWithName = imgCheck();
-            		let data;
-            		
-           			console.log("떠제발: " + imgArrWithName);
-           			
-					if(bimagecount != 0){
-        				
-            			data = {
-            					sno : sno,
-            					bno : bno,
-            					imgArr : imgArrWithName
-            				};
-            			console.log("이미지 있 : " + data.imgArr);
-            			
-        			} else {
-        				
-        				data= {
-        					sno : sno,
-        					bno : bno,
-        				}
-        				console.log("이미지 없 : " + data.imgArr);
-        			}
-        			
-					$.ajax({
-    					url : "./ToBoardEdit",
-    					type : "post",
-    					data : data,
-    					dataType : "json",
-    					success : function(data) {
-    						if(data == 1){
-    							alert("야호 성공");
-    						}
-    					},
-    					error : function(error) {
-    						alert("에러발생");
-    						}
-    				});
-
-
-        			
-        			/* function bedit(sno, bno, imgArr){
-              			 if(confirm("글을 수정하시겠습니까?")){
-              				console.log(imgArr);
-              				location.href="/boardEdit?cate="+sno+"&bno="+bno+"&imgArr="+imgArr;
-              			 }
-              		 } */
-        			
-              		 
-        		})
-        	});
-        	
-        	
-        	
+	        function bedit(sno, bno){
+	        	if(confirm("글을 수정하시겠습니까?")){
+	             	location.href="/boardEdit?cate="+sno+"&bno="+bno;
+	            }
+	        }	
+	        	
         	// 글삭제
         	function bdelete(sno, bno){
       			 if(confirm("글을 삭제하시겠습니까?")){
@@ -223,7 +151,7 @@
 					</div>
 					
 					<div class="bBtnBox">
-						<button id="bedit">글수정</button>
+						<button onclick="bedit(${bdetail.sno}, ${bdetail.bno})">글수정</button>
 						<button onclick="bdelete(${bdetail.sno}, ${bdetail.bno})">글삭제</button>
 					</div>
 				</div>

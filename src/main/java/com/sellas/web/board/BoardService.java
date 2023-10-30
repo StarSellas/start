@@ -30,11 +30,6 @@ public class BoardService {
 	}
 
 	public Map<String, Object> boardDetail(Map<String, Object> map) {
-		System.out.println(map);
-		//{sno=2, bno=65, imgArr[num0]=20231030184336num0라이언.png, imgArr[num1]=20231030184336num1라이언2.png}
-		//{bno=65, bimage=20231030184336num0라이언.png}
-		//{bno=65, bimage=20231030184336num1라이언2.png}
-		
 		return boardDAO.boardDetail(map);
 	}
 

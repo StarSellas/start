@@ -142,33 +142,46 @@ public class BoardController {
 	}
 	
 	// 게시글수정 페이지
-	@ResponseBody
-	@PostMapping("ToBoardEdit")
+	@GetMapping("boardEdit")
 	public String boardEdit(@RequestParam Map<String, Object> map, Model model) {
 		
 		Map<String, Object> detailList = boardService.boardDetail(map);
+		List<Map<String, Object>> imageList = boardService.imageList(map);
 		//System.out.println(detailList);
 		// {bno=11, bread=0, mnickname=셀라스, commentcount=0, bdate=12:29:22, sno=2, btitle=글써, bcontent=글써, mno=1}
 		
-		model.addAttribute("detail", detailList);
+		model.addAttribute("bdetail", detailList);
+		model.addAttribute("imageList", imageList);
 		
 		return "boardedit";
 	}
 	
 	// 게시글수정 로직
 	@PostMapping("boardEdit")
-	public String boardEdit(@RequestParam(value="boardimg", required = false) List<MultipartFile> boardimgList, Map<String, Object> map) {
-		//System.out.println(map);
+	public String boardEdit(@RequestParam (value="boardimg", required = false) List<MultipartFile> boardimgList, 
+							@RequestParam Map<String, Object> map) {
+		System.out.println(map);
 		// {btitle=판매해주세여, bcontent=판매좀해주세여, bno=6, cate=2}
-		int result = boardService.boardEdit(map);
+		int writeResult = boardService.boardEdit(map);
+		if(writeResult == 1) {
+			
+			// 파일이 있다면 업로드
+			if(!boardimgList.isEmpty() && boardimgList != null) {
+				
+				
+			}
+			
+		}
+				
 		//System.out.println(result);
 		
-		if(result == 1) {
-			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
-		} else {
-			System.out.println("글수정 실패");
-			return "redirect:/boardDetail?cate="+map.get("cate");
-		}
+		/*
+		 * if(result == 1) { return
+		 * "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno"); } else
+		 * { System.out.println("글수정 실패"); return
+		 * "redirect:/boardDetail?cate="+map.get("cate"); }
+		 */
+		return "";
 	}
 	
 	// 게시글삭제 로직
