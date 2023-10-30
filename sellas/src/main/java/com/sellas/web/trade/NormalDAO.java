@@ -31,6 +31,12 @@ public interface NormalDAO {
 
 	void fillWhalePay(Map<String, Object> map);
 
+	int normalEdit(Map<String, Object> map);
+
+	int normalDeleteEditImage(Map<String, Object> deleteImage);
+
+	int SelectnormalThumbnail(Map<String, Object> map);
+
 	
 
 }

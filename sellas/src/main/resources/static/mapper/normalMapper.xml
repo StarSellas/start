@@ -72,4 +72,25 @@ WHERE tno = #{tno} and muuid=#{muuid}
 INSERT INTO fill (muuid, camount)
 VALUES ((SELECT muuid FROM member WHERE mno = #{mno}), #{money})
 </insert>
+
+<update id="normalEdit" parameterType="Map">
+UPDATE trade
+SET ttitle = #{ttitle},  ino = #{category}, tcontent = #{tcontent}, tnormalprice = #{tnormalprice}
+where tno =#{tno}
+</update>
+
+<delete id="normalDeleteEditImage" parameterType="Map">
+DELETE FROM tradeimage
+WHERE tno = #{tno} and timage = #{selectedImage0} <if test="selectedImage1 != ''">or timage =#{selectedImage1}</if>
+<if test="selectedImage2 !=''">or timage =#{selectedImage2}</if>
+
+
+</delete>
+
+<select id="SelectnormalThumbnail" parameterType="Map" resultType="Integer">
+SELECT COUNT(*)
+FROM tradeimage
+WHERE tno = #{tno} and tthumbnail = 0
+</select>
+
 </mapper>

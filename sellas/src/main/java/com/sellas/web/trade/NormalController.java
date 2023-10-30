@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -182,14 +183,17 @@ public class NormalController {
 		
 		
 		int normalDetailCount = normalService.normalDetailCount(tno);
-
-		
+		//모델에 카운트 값 넣기
+		model.addAttribute("normalDetailCount", normalDetailCount);
+		 
 		if (normalDetailCount > 0) {
 			// 사진 realFileName 가져오기
 			List<Map<String, Object>> normalDetailImage = normalService.normalDetailImage(tno);
 			
 			// 모델에 값 넣기
 			model.addAttribute("normalDetailImage", normalDetailImage);
+			
+			
 			System.out.println("노말 디테일 이미지 어떻게 오나오 ? : " + normalDetailImage);
 		}
 		System.out.println("normalDetail값은 이렇게 옵니다 : " + normalDetail);
@@ -240,6 +244,98 @@ public class NormalController {
 		return "/";
 	}
 	
+	
+	
+	
+	@PostMapping("/normalEdit")
+	public String normalEdit(@RequestParam(value = "tradeimg", required = false) List<MultipartFile> tradeimg,
+			@RequestParam Map<String, Object> map) {
+		System.out.println("이미지 값이 어떻게 올까요? " + tradeimg);
+		System.out.println(map);
+
+		int normalEditResult = normalService.normalEdit(map);
+		if(normalEditResult == 1) {
+			
+	
+			if((map.get("selectedImage0") != null && !(map.get("selectedImage0").equals("")))
+		|| (map.get("selectedImage1") != null && !(map.get("selectedImage1").equals(""))) 
+		|| (map.get("selectedImage2") != null && !(map.get("selectedImage2").equals("")))){
+			//수정된 사진이 있다면 삭제하는 식.
+			Map<String, Object> deleteImage = new HashMap<String, Object>();
+			deleteImage.put("tno", map.get("tno"));
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				String selectedImage = entry.getKey();
+				Object Imagesrc = entry.getValue();
+				
+				if(selectedImage.startsWith("selectedImage")) {
+					deleteImage.put(selectedImage, Imagesrc);
+				}
+			}
+			System.out.println("deleteImage의 값입니당 왔으면 좋겠다 : "+deleteImage);
+			
+			int normalDeleteEditImageResult = normalService.normalDeleteEditImage(deleteImage);
+			System.out.println("수정되었을 때 사진이 삭제되는지 ?? : " + normalDeleteEditImageResult);
+			
+			}//if(!(map.get("selectedImage0").equals(""))) 끝
+			
+			
+			//사진 업로드
+			if (tradeimg != null && !tradeimg.isEmpty()) {
+				System.out.println("이게 왜 안나옴?????????????????????????????????????????");
+				for (int i = 0; i < tradeimg.size(); i++) {
+
+					// 저장할 경로명 뽑기 request뽑기
+					HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder
+							.currentRequestAttributes()).getRequest();
+					String path = req.getServletContext().getRealPath("/tradeImgUpload");
+					System.out.println("이미지 오리지널 파일 이름 : " + tradeimg.get(i).getOriginalFilename());
+					LocalDateTime ldt = LocalDateTime.now();
+					String format = ldt.format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss"));
+					String realFileName = format + "num" + i + tradeimg.get(i).getOriginalFilename();
+
+					// 확장자 자르기
+					String[] parts = tradeimg.get(i).getOriginalFilename().split("\\.");
+					String lastPart = parts[parts.length - 1];
+					System.out.println(lastPart);
+
+					// 확장자 아니면 파일 없애보리기
+
+					if (!(lastPart.equals("jpg") || lastPart.equals("png") || lastPart.equals("jpeg")
+							|| lastPart.equals("bmp") || lastPart.equals("gif") || lastPart.equals("jpe"))) {
+						continue;
+					}
+
+					File newFileName = new File(path, realFileName);
+
+					// 진짜 이름을 맵에 넣기
+					map.put("realFileName", realFileName);
+
+					try {
+						FileCopyUtils.copy(tradeimg.get(i).getBytes(), newFileName);
+
+						int insertTradeimgResult = normalService.insertTradeimg(map);
+
+						if (insertTradeimgResult == 1 && i == 0) {
+							
+							int ThumbnailCount =  normalService.SelectnormalThumbnail(map);
+							if(ThumbnailCount == 0) {
+								normalService.setThumbnail(realFileName);
+								
+							}
+							
+						}
+
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				} // for문의 끝
+			} // (!tradeimg.isEmpty()) 의 끝(사진 넣기 끝)
+			
+		}
+		
+		return "redirect:/normalDetail?tno="+map.get("tno");
+	}
 	
 	
 }// 컨트롤러 끝

@@ -82,6 +82,7 @@
 						<button id="normalDeleteBtn">등록 취소</button>
 					</c:if>
 					<c:if test="${sessionScope.muuid != detail.muuid &&detail.tnormalstate == 0}">
+						<button id="addWishList">찜하기</button>
 						<button id="requestTradeBtn">거래 신청</button>
 					</c:if>
 				</div>

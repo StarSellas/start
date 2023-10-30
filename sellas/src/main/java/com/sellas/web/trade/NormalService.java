@@ -76,6 +76,21 @@ public class NormalService {
 	public void fillWhalePay(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		normalDAO.fillWhalePay(map);
+	}
+
+	public int normalEdit(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.normalEdit(map);
+	}
+
+	public int normalDeleteEditImage(Map<String, Object> deleteImage) {
+		
+		return normalDAO.normalDeleteEditImage(deleteImage);
+	}
+
+	public int SelectnormalThumbnail(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.SelectnormalThumbnail(map);
 	} 
 
 	
