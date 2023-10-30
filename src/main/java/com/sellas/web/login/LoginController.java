@@ -36,7 +36,7 @@ public class LoginController {
 	public String logout() {
 		
 		loginService.logout();
-		
+	
 		return "redirect:/login";
 	}
 	
