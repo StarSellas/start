@@ -29,7 +29,9 @@
       style="z-index: 10">
       <div class="container px-4 px-lg-5">
          <a class="navbar-brand" href="/">SellAS</a>
-         <span>${sessionScope.muuid }</span>
+         <c:if test="${sessionScope.muuid ne null}">
+	         <span>로그인완</span>
+         </c:if>
          <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
       </div>
    </nav>
@@ -78,6 +80,7 @@
                   <c:forEach items="${list}" var="list">
                      <tr>
                         <td class="btitle" onclick="location.href='/boardDetail?cate=${param.cate}&bno=${list.bno }'" data-bno="${list.rowNum}">
+                        	<c:if test="${list.bthumbnail eq 0}"> <span>i</span> </c:if>
                         	${list.rowNum} & ${list.bno}. ${list.btitle} (${list.commentcount})
                         </td>
                         <td>${list.bdate}</td>

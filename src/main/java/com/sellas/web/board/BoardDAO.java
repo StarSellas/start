@@ -14,8 +14,14 @@ public interface BoardDAO {
 
 	int boardWrite(Map<String, Object> map);
 
-	Map<String, Object> boardDetail(Map<String, Object> map);
+	int boardImage(Map<String, Object> map);
 
+	Map<String, Object> boardDetail(Map<String, Object> map);
+	
+	List<Map<String, Object>> imageList(Map<String, Object> map);
+
+	int setThumbnail(Map<String, Object> map);
+	
 	int boardEdit(Map<String, Object> map);
 
 	int boardDelete(Map<String, Object> map);
@@ -28,6 +34,9 @@ public interface BoardDAO {
 
 	int commentEdit(Map<String, Object> map);
 
-	int boardWrite2(Map<String, Object> map);
+
+
+	
+
 
 }

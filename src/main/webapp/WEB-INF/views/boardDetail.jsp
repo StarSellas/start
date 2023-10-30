@@ -24,14 +24,85 @@
         
         <script type="text/javascript">
        		
+        	// 게시글 페이지의 이미지들을 imgArr배열에 넣는 함수
+	    	function imgCheck(){
+	    		
+	    		let bimagecount = ${bdetail.bimagecount};
+	    		//console.log("일단 이거 떠라 : " + bimagecount);
+	    		let imgArr=[];
+	    		let imgArrWithName = {};
+	    		let elements = document.getElementsByClassName("boardImgBox");
+	    		for (let i = 0; i < bimagecount; i++) {
+	    			imgArr[i] = elements[i].textContent;
+	    			imgArrWithName["num" + i] = imgArr[i];
+	    		}
+				
+				console.log(imgArrWithName);
+	    		return imgArrWithName;
+	    	}
+        
         	// 글수정
-        	function bedit(sno, bno){
-       			 if(confirm("글을 수정하시겠습니까?")){
-       				//console.log(sno);
-       				//console.log(bno);
-       				location.href="/boardEdit?cate="+sno+"&bno="+bno;
-       			 }
-       		 }
+        	$(function(){
+        		
+        		$("#bedit").click(function(){
+        			
+        			let sno = ${bdetail.sno};
+        			let bno = ${bdetail.bno};
+        			
+            		let bimagecount = ${bdetail.bimagecount};
+            		let imgArrWithName = {};
+            		imgArrWithName = imgCheck();
+            		let data;
+            		
+           			console.log("떠제발: " + imgArrWithName);
+           			
+					if(bimagecount != 0){
+        				
+            			data = {
+            					sno : sno,
+            					bno : bno,
+            					imgArr : imgArrWithName
+            				};
+            			console.log("이미지 있 : " + data.imgArr);
+            			
+        			} else {
+        				
+        				data= {
+        					sno : sno,
+        					bno : bno,
+        				}
+        				console.log("이미지 없 : " + data.imgArr);
+        			}
+        			
+					$.ajax({
+    					url : "./ToBoardEdit",
+    					type : "post",
+    					data : data,
+    					dataType : "json",
+    					success : function(data) {
+    						if(data == 1){
+    							alert("야호 성공");
+    						}
+    					},
+    					error : function(error) {
+    						alert("에러발생");
+    						}
+    				});
+
+
+        			
+        			/* function bedit(sno, bno, imgArr){
+              			 if(confirm("글을 수정하시겠습니까?")){
+              				console.log(imgArr);
+              				location.href="/boardEdit?cate="+sno+"&bno="+bno+"&imgArr="+imgArr;
+              			 }
+              		 } */
+        			
+              		 
+        		})
+        	});
+        	
+        	
         	
         	// 글삭제
         	function bdelete(sno, bno){
@@ -99,6 +170,12 @@
 
         	});
         </script>
+        <script type="text/javascript">
+        	
+        
+        
+        	
+        </script>
         	
         
     </head>
@@ -122,24 +199,38 @@
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     
                   <div><a href="/board?cate=${bdetail.sno }">${bdetail.sname }</a></div>
-                  
-                  <div class="detailContainer">
-	                  <div class="titleBox">
-	                  	<div> 제목 : ${bdetail.btitle } // <span>조회수 : ${bdetail.bread }</span></div>
-	                  	<div>글쓴이 : ${debdetailail.mnickname } // <span>날짜 : ${bdetail.bdate }</span></div>
-	                  </div>
-	                  <div class="contentBox">
-		                  <div>내용 : ${bdetail.bcontent }</div>
-	                  </div>
-	                  <div class="bBtnBox">
-		                  <button onclick="bedit(${bdetail.sno}, ${bdetail.bno})">글수정</button>
-		                  <button onclick="bdelete(${bdetail.sno}, ${bdetail.bno})">글삭제</button>
-		              </div>
-                  </div>  
+
+				<div class="detailContainer">
+					<div class="titleBox">
+						<div>
+							제목 : ${bdetail.btitle } // <span>조회수 : ${bdetail.bread }</span>
+						</div>
+						<div> 글쓴이 : ${debdetailail.mnickname } // 
+							<span>날짜 : ${bdetail.bdate }</span>
+						</div>
+					</div>
+					<div class="contentBox">
+						<div>내용 : ${bdetail.bcontent }</div>
+					</div>
+					
+					<div class="bimageBox">
+					<span>이미지 갯수 : ${bdetail.bimagecount}</span>
+						<c:if test="${imageList ne null && bdetail.bimagecount ne 0}">
+							<c:forEach items="${imageList}" var="imageList">
+									<div class="boardImgBox"><img class="boardImg" src="/boardImgUpload/${imageList.bimage}">${imageList.bimage}</div>
+							</c:forEach>
+						</c:if>
+					</div>
+					
+					<div class="bBtnBox">
+						<button id="bedit">글수정</button>
+						<button onclick="bdelete(${bdetail.sno}, ${bdetail.bno})">글삭제</button>
+					</div>
+				</div>
+
+				<hr>
                    
-                   <hr>
-                   
-                   <!-- 댓글창 -->
+                   <!-------------------- 댓글창 -------------------->
                    <div class="commentContainer">
 					<c:choose>
 						<c:when test="${bdetail.commentcount eq 0}">
@@ -164,7 +255,7 @@
 						</c:otherwise>
 					</c:choose>
 
-					<!-- 댓글쓰기창 -->
+					<!-------------------- 댓글쓰기창 -------------------->
 						<div class="cWriteBox">
 							<form action="./commentWrite" method="post">
 								<textarea class="cContent" name="ccontent"></textarea>

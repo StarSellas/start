@@ -16,13 +16,37 @@
 	<select id="setupboardList" parameterType="Integer" resultType="Map">
 		SELECT * FROM setupboard 
 	</select>
-	
 
 	<select id="boardDetail" parameterType="Map" resultType="Map">
-		SELECT *, (SELECT sname from setupboard WHERE sno=#{cate}) AS sname FROM boardview 
+		SELECT *, (SELECT sname from setupboard WHERE sno=#{cate}) AS sname 
+		FROM boardview 
 		WHERE bno=#{bno}
 	</select>
 	
+	<select id="imageList" parameterType="Map" resultType="Map">
+		SELECT * FROM boardimage
+		WHERE bno=#{bno}
+	</select>
+
+	<insert id="boardWrite" parameterType="Map">
+		INSERT INTO board (sno, muuid, btitle, bcontent)
+		VALUES (#{cate}, #{muuid}, #{btitle}, #{bcontent})
+		
+		<selectKey resultType="Integer" keyProperty="bno" order="AFTER">
+			 SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<insert id="boardImage" parameterType="Map">
+		INSERT INTO boardimage (bno, bimage)
+		VALUES (#{bno}, #{bimage})
+	</insert>
+
+	<update id="setThumbnail" parameterType="Map">
+		UPDATE boardimage SET bthumbnail=0
+		WHERE bimage=#{bimage} and bno=#{bno}
+	</update>
+
 	<update id="boardEdit" parameterType="Map">
 		UPDATE board SET bdelete=1, btitle=#{btitle}, bcontent=#{bcontent}, bdate=CURRENT_TIMESTAMP
 		WHERE bno=#{bno}

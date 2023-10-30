@@ -20,16 +20,32 @@ public class BoardService {
 	public List<Map<String, Object>> setupboardList(int cate) {
 		return boardDAO.setupboardList(cate);
 	}
-	@Transactional
 	public int boardWrite(Map<String, Object> map) {
-		map.put("muuid", "asdfda321412asd");
+		map.put("muuid", "6fd651fd-9922-43c3-b0d9-57e7e6ea4c14");
 		return boardDAO.boardWrite(map);
+	}
+	
+	public int boardImage(Map<String, Object> map) {
+		return boardDAO.boardImage(map);
 	}
 
 	public Map<String, Object> boardDetail(Map<String, Object> map) {
+		System.out.println(map);
+		//{sno=2, bno=65, imgArr[num0]=20231030184336num0라이언.png, imgArr[num1]=20231030184336num1라이언2.png}
+		//{bno=65, bimage=20231030184336num0라이언.png}
+		//{bno=65, bimage=20231030184336num1라이언2.png}
+		
 		return boardDAO.boardDetail(map);
 	}
 
+	public List<Map<String, Object>> imageList(Map<String, Object> map) {
+		return boardDAO.imageList(map);
+	}
+	
+	public int setThumbnail(Map<String, Object> map) {
+		return boardDAO.setThumbnail(map);
+	}
+	
 	public int boardEdit(Map<String, Object> map) {
 		return boardDAO.boardEdit(map);
 	}
@@ -47,18 +63,12 @@ public class BoardService {
 	}
 
 	public int commentWrite(Map<String, Object> map) {
-		map.put("muuid", "asdfda321412asd");
+		map.put("muuid", "6fd651fd-9922-43c3-b0d9-57e7e6ea4c14");
 		return boardDAO.commentWrite(map);
 	}
 
 	public int commentEdit(Map<String, Object> map) {
 		return boardDAO.commentEdit(map);
-	}
-
-	@Transactional
-	public int boardWrite2(Map<String, Object> map) {
-		return boardDAO.boardWrite2(map);
-
 	}
 
 }

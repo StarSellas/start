@@ -21,6 +21,7 @@
         
         <!-- ******************* 추가 *********************** -->
         <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+        <script src="./js/jquery-3.7.0.min.js"></script>
         
     </head>
     <body>
@@ -78,10 +79,16 @@
 								<input type="text" class="" id="btitle" name="btitle" placeholder="제목을 입력해주세요">
 							</div>
 							<textarea id="bcontent" name="bcontent" placeholder="내용을 입력해주세요"></textarea>
-							<input type="file" name="boardimg" class="boardimg">
+							<div class="boardimgBox">
+								<input type="file" name="boardimg" class="boardimg" id="boardimg">
+								<button id="addPhotoButton" type="button">사진 추가하기</button>
+								<div id="photoInputs">
+                    				<div id="imagePreviews"></div>
+                    			</div>
+							</div>
 							<input type="hidden" name="cate" value="${param.cate}">
 							<div class="bwriteBtnBox">
-								<button type="submit" class="">글쓰기</button>
+								<button type="submit" class="bwriteButton">글쓰기</button>
 							</div>
 						</form>
 					</div>
@@ -105,5 +112,72 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+        <script type="text/javascript">
+        
+      	  $(function() {
+	        	
+	            var maxPhotos = 3;
+	            var nextPhotoId = 1;
+	
+	            $("#addPhotoButton").click(function () {
+	                
+	            	//console.log("떠라");
+	            	
+	            	if (nextPhotoId <= maxPhotos) {
+	                    var newInput = $("<input type='file' name='boardimg' class='boardimg' id='boardimg" + nextPhotoId + "'>");
+	                    //var newPreview = $("<img class='imagePreview' id='imagePreview" + nextPhotoId + "' src='' alt='미리보기 이미지'>");
+	                    $("#photoInputs").append(newInput);
+	                    //$("#imagePreviews").append(newPreview);
+							
+	                       newInput.change(function () {
+	                        resizeImage(this, 200, 200, function (resizedDataUrl) {
+	                            var previewId = this.id.replace("boardimg", "imagePreview");
+	                            var preview = $("#" + previewId);
+	                            preview.attr("src", resizedDataUrl);
+	                        }.bind(this));
+	                    });
+
+	                    nextPhotoId++;
+	                } else {
+	                    alert("더 이상 사진을 추가할 수 없습니다.");
+	                }
+	            });
+	            
+	        });
+	        
+	        function resizeImage(input, maxWidth, maxHeight, callback) {
+	            if (input.files && input.files[0]) {
+	                var reader = new FileReader();
+
+	                reader.onload = function (e) {
+	                    var image = new Image();
+	                    image.src = e.target.result;
+
+	                    image.onload = function () {
+	                        var width = image.width;
+	                        var height = image.height;
+
+	                        if (width > maxWidth || height > maxHeight) {
+	                            var ratio = Math.min(maxWidth / width, maxHeight / height);
+	                            width *= ratio;
+	                            height *= ratio;
+	                        }
+
+	                        var canvas = document.createElement("canvas");
+	                        canvas.width = width;
+	                        canvas.height = height;
+	                        var ctx = canvas.getContext("2d");
+	                        ctx.drawImage(image, 0, 0, width, height);
+
+	                        var resizedDataUrl = canvas.toDataURL("image/jpeg");
+	                        callback(resizedDataUrl);
+	                    };
+	                };
+
+	                reader.readAsDataURL(input.files[0]);
+	            }
+	        }
+        
+        </script>
     </body>
 </html>
