@@ -24,49 +24,54 @@
 	</head>
 	<body>
 	<!-- Navigation-->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="z-index: 10">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light"
+		style="z-index: 10">
 		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="">SellAS</a>
+		<a class="navbar-brand" href="">SellAS</a>
 			<button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></button>
 		</div>
 	</nav>
 	<!-- Header-->
-	<header>
+		<header>
 
-	</header>
-	<!-- Section-->
-	<section class="py-5">
-		<div class="container px-4 px-lg-5 mt-5" style="z-index: 10">
-			<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+		</header>
+		<!-- Section-->
+		<section class="py-5">
+			<div class="container px-4 px-lg-5 mt-5" style="z-index: 10">
+				<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+				</div>
 			</div>
-		</div>
-	</section>
-
-
-	<form action="./signup" method="post">
-	
-	<div class="page" id="page1">
-		<div>
+		</section>
+        
+        
+		<div class="page" id="page1">
+			<div>
+				<input type="text" id="id" name="id" placeholder="아이디" maxlength="15" required="required"> 	
+			</div>
 			<div>
 				<input type="text" id="email" name="email" placeholder="이메일 주소" maxlength="36" required="required">
 				<div id="emailMessage"><span style="visibility: hidden;">:</span></div>
 			</div>
-			<div id="emailCodeDiv" style="visibility: hidden;">
+			<button onclick="showEmailCodeDiv()">다음</button>
+			<div>
+				<a href="./findid">아이디 찾기</a>
+				<span style="border-left: 1px solid #ccc;height: 12px;margin: 0 10px;"></span>
+				<a href="./login">로그인</a>
+			</div>
+		</div>
+		
+		<div class="page" id="page2" style="display:none">
+			<div id="idDiv">ID</div>
+			<div id="emailDiv">EMAIL</div>
+			<div id="emailCodeDiv">
 				<input type="text" id="emailCode" placeholder="인증번호 입력" maxlength="16" required="required">
 				<button type="button" id="sendCode" onclick="sendVerificationCode()">재요청</button>
 				<button type="button" id="checkCode" onclick="validateEmailCode()">확인</button>
 				<div id="emailCodeMessage"><span style="visibility: hidden;">:</span></div>
 			</div>
 		</div>
-		<button type="button" id="next1" onclick="showPage('page2')" disabled="disabled">다음</button>
-	</div>
-	
-	<div class="page" id="page2" style="display:none">
-		<div>
-			<div>
-				<input type="text" id="id" name="id" placeholder="아이디" maxlength="15" required="required"> 	
-				<div id="idMessage"><span style="visibility: hidden;">:</span></div>
-			</div>
+		
+		<div class="page" id="page3" style="display:none">
 			<div>	
 				<input type="password" id="pw" name="pw" placeholder="비밀번호" maxlength="15" required="required">
 				<div id="pwMessage"><span style="visibility: hidden;">:</span></div>
@@ -75,48 +80,31 @@
 				<input type="password" id="pwcheck" placeholder="비밀번호 확인" maxlength="15" required="required">
 				<div id="pwcheckMessage"><span style="visibility: hidden;">:</span></div>
 			</div>
+			<button id="changePasswordButton" onclick="changePassword()" disabled="disabled">확인</button>
 		</div>
-		<button type="button" id="next2" onclick="showPage('page3')" disabled="disabled">다음</button>
-	</div>
-	
-	<div class="page" id="page3" style="display:none">
-		<div>
+		
+		<div class="page" id="page4" style="display:none">
 			<div>
-				<input type="text" id="nickname" name="nickname" placeholder="닉네임" maxlength="18" required="required">
-				<div id="nicknameMessage"><span style="visibility: hidden;">:</span></div>
-			</div>
-			<div>
-				<input type="text" id="name" name="name" placeholder="이름" maxlength="18" required="required">
-				<div id="nameMessage"><span style="visibility: hidden;">:</span></div>
-			</div>
-			<div>
-				<input type="text" id="phone" name="phone" placeholder="휴대전화 번호" maxlength="11" required="required">		
-				<div id="phoneMessage"><span style="visibility: hidden;">:</span></div>
+				<a href="./login">로그인</a>
 			</div>
 		</div>
-		<button type="submit" disabled="disabled">가입하기</button>
-	</div>
-	
-	</form>
-
-
-	<!-- Footer-->
-	<!-- 
-	<footer id="footer">
-		<div class="container">
-			<ul class="menubar">
-				<li><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
-				<li><i class="xi-message xi-2x"></i><div id="menu">채팅</div></li>
-				<li><i class="xi-profile xi-2x"></i><div id="menu">마이페이지</div></li>
-			</ul>
-		</div>
-	</footer>
-	-->
-	<!-- Bootstrap core JS-->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- Core theme JS-->
-	<script src="js/signup.js"></script>
-    </body>
+        
+        
+		<!-- Footer-->
+		<!--
+		<footer id="footer">
+			<div class="container">
+				<ul class="menubar">
+					<li><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
+					<li><i class="xi-message xi-2x"></i><div id="menu">채팅</div></li>
+					<li><i class="xi-profile xi-2x"></i><div id="menu">마이페이지</div></li>
+				</ul>
+			</div>
+		</footer>
+		-->
+		<!-- Bootstrap core JS-->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Core theme JS-->
+		<script src="js/findpw.js"></script>
+	</body>
 </html>
-
-

@@ -23,6 +23,7 @@ public class SignupController {
 	@Autowired
 	private Util util;
 	
+	/* SIGNUP : 회원가입 */
 	
 	@GetMapping("/signup")
 	public String signup() {
@@ -37,6 +38,8 @@ public class SignupController {
 		
 		return "redirect:/login";
 	}
+	
+	/* 이메일 인증번호 발신 */
 	
 	@ResponseBody
 	@PostMapping("/sendVerificationCode")
@@ -56,6 +59,8 @@ public class SignupController {
 		}
 	}
 	
+	/* 이메일 인증번호 확인 */
+	
 	@ResponseBody
 	@PostMapping("/checkVerificationCode")
 	public boolean checkVerificationCode(@RequestParam String code, HttpServletRequest request) {
@@ -69,6 +74,8 @@ public class SignupController {
 			return false;
 		}
 	}
+	
+	/* 중복 검사 */
 	
 	@ResponseBody
 	@PostMapping("/duplicationCheck")

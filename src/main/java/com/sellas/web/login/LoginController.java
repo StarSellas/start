@@ -37,6 +37,44 @@ public class LoginController {
 		
 		loginService.logout();
 		
-		return "login";
+		return "redirect:/login";
+	}
+	
+	/* FINDID : 아이디 찾기 */
+	
+	@GetMapping("/findid")
+	public String findid() {
+		return "findid";
+	}
+	
+	@ResponseBody
+	@PostMapping("/findid")
+	public String findid(@RequestParam String email, @RequestParam boolean filtering) {
+		
+		return loginService.findid(email, filtering);
+	}
+	
+	/* FINDPW : 비밀번호 찾기 */
+	
+	@GetMapping("/findpw")
+	public String findpw() {
+		return "findpw";
+	}
+	
+	@ResponseBody
+	@PostMapping("/crosscheckIdAndEmail")
+	public boolean crosscheckIdAndEmail(@RequestParam Map<String, Object> map) {
+		
+		return loginService.crosscheckIdAndEmail(map);
+	}
+	
+	/* Change Password : 비밀번호 변경 */
+	// 아이디 찾기 & 비밀번호 찾기 이메일 인증 후 요청
+	
+	@ResponseBody
+	@PostMapping("/changePassword")
+	public boolean changePassword(@RequestParam Map<String, Object> map) {
+		
+		return loginService.changepw(map);
 	}
 }
