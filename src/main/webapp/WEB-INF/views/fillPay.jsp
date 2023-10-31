@@ -40,8 +40,15 @@
             <div class="container px-4 px-lg-5 mt-5 tradecontainter" style="z-index: 10" id="productContainer">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     
-                  여기에 추가해주세요
-                    
+                  ${muuid }
+                   충전할 금액을 입력해주세요
+                   <form action="./fillRequset" method="post">
+                   <input value="${mnickname }" name="mnickname" type="hidden">
+                   <input value="${sessionScope.mno }" name="mno" type="hidden">
+                   
+                   <input type="number"  name="money"> 원
+                   <button type="submit">충전하기</button>
+                   </form>
                    
                    
                    

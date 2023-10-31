@@ -35,14 +35,19 @@
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder"></h1>
                     <p class="lead fw-normal text-white-50 mb-0">안녕하세요 ${memberInfo.mnickname }님!!</p>
+                    <br>
+                    현재 남은 잔액 : ${memberInfo.mamount } 웨일페이
                 </div>
             </div>
         </header>
         <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
+                <div style="text-align: center;">
+                <button onclick="location.href='./normalWrite'" style="background-color: red; width: 50px; height: 50px;">물품 등록</button>
+                <button onclick="location.href='./fillPay'" style="background-color: yellow; width: 50px; height: 50px;">머니 충전</button><br>
+                </div>
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <button onclick="location.href='./normalWrite'" style="background-color: red; width: 50px; height: 50px;">물품 등록</button><br>
         <c:forEach items="${normalBoardList }" var="i">
                     <div class="col mb-5">
                         <div class="card h-100">
@@ -52,7 +57,7 @@
                           	<img class="card-img-top" src="./tradeImgUpload/${i.thumbnail }" alt="thumbnail" />
                           	</c:when>
                           	<c:otherwise>
-                            <img class="card-img-top" src="./tradeImgUpload/20231026201927login.png" alt="..." />
+                            <img class="card-img-top" src="./tradeImgUpload/defaultimg.jpg" alt="..." />
                             </c:otherwise>
                             </c:choose>
                             <!-- Product details-->
@@ -61,7 +66,7 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">${i.ttitle }</h5>
                                     <!-- Product price-->
-                                    작성자uuid(나중에 뷰만들어서 닉네임 보여주자) : ${i.muuid }<br>
+                                   작성자 :  ${i.mnickname }<br>
                                     ${i.tnormalprice } 웨일페이<br>
                                    
                                 </div>

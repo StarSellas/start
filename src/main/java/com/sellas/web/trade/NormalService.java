@@ -39,7 +39,10 @@ public class NormalService {
 	
 	
 	public int normalWrite(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		//tnormalstate값 넣어주기
+				map.put("tnormalstate", 0);
+				//ttype값 넣어주기
+				map.put("ttype", 0);
 		return normalDAO.normalWrite(map);
 	}
 
@@ -51,7 +54,7 @@ public class NormalService {
 	public int normalDetailCount(int tno) {
 		// TODO Auto-generated method stub
 		return normalDAO.normalDetailCount(tno);
-	}
+	} 
 
 	public List<Map<String, Object>> normalDetailImage(int tno) {
 		// TODO Auto-generated method stub
@@ -63,6 +66,61 @@ public class NormalService {
 	public void setThumbnail(String realFileName) {
 		normalDAO.setThumbnail(realFileName);
 		
+	}
+
+	public int normalDelete(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.normalDelete(map);
+	}
+
+	public int fillWhalePay(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.fillWhalePay(map);
+	}
+
+	public int normalEdit(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.normalEdit(map);
+	}
+
+	public int normalDeleteEditImage(Map<String, Object> deleteImage) {
+		
+		return normalDAO.normalDeleteEditImage(deleteImage);
+	}
+
+	public int SelectnormalThumbnail(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.SelectnormalThumbnail(map);
+	}
+
+	public int selectTnormalstate(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.selectTnormalstate(map);
+	}
+
+	public int selectMamountForTrade(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.selectMamountForTrade(map);
+	}
+
+	public int takeMamount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.takeMamount(map);
+	}
+
+	public int changeStateForNormal(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.changeStateForNormal(map);
+	}
+
+	public int insertPaymentForNormal(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return normalDAO.insertPaymentForNormal(map);
+	}
+
+	public void fillMamount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		normalDAO.fillMamount(map);
 	} 
 
 	
