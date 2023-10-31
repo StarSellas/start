@@ -12,11 +12,15 @@ public interface BoardDAO {
 
 	List<Map<String, Object>> setupboardList(int cate);
 
+	List<Map<String, Object>> mainList(int cate);
+	
 	int boardWrite(Map<String, Object> map);
 
 	int boardImage(Map<String, Object> map);
 
 	Map<String, Object> boardDetail(Map<String, Object> map);
+	
+	void boardReadUP(Map<String, Object> map);
 	
 	List<Map<String, Object>> imageList(Map<String, Object> map);
 
@@ -34,9 +38,6 @@ public interface BoardDAO {
 
 	int commentEdit(Map<String, Object> map);
 
-
-
-	
 
 
 }

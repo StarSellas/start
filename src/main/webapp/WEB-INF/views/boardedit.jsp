@@ -26,21 +26,30 @@
         
         	$(function(){
         		
+        		let count = 0;
+        		let noEditList = [];
+        		
+        		
         		$(".imgEditbtn").click(function(){
-        			//alert("!");
+        			
         			// 이미지박스
         			let boardImgBox = $(this).parents(".boardImgBox");
         			// 이미지이름
         			let bimage = $(this).parents(".boardImgBox").text();
+        			
         			console.log(bimage);
         			
         			// 이미지첨부박스
         			let imgInputBox = "";
+        	
         			imgInputBox += '<div class="boardimgBox">'
         						+  '<input type="file" name="boardimg" class="boardimg" id="boardimg">';
+        						+  '<input type="hidden" name="imgNo" value="'+count+'">';
         						+  '<button id="addPhotoButton" type="button">사진 추가하기</button>';
         						+  '<div id="photoInputs"><div id="imagePreviews"></div></div>';
         			
+        			count++;
+        			console.log("count : " + count);
         			boardImgBox.after(imgInputBox);
         			boardImgBox.hide();
         			
@@ -58,8 +67,6 @@
 	
 	            $("#addPhotoButton").click(function () {
 	                
-	            	//console.log("떠라");
-	            	
 	            	if (nextPhotoId <= maxPhotos) {
 	                    var newInput = $("<input type='file' name='boardimg' class='boardimg' id='boardimg" + nextPhotoId + "'>");
 	                    //var newPreview = $("<img class='imagePreview' id='imagePreview" + nextPhotoId + "' src='' alt='미리보기 이미지'>");
@@ -78,6 +85,7 @@
 	                } else {
 	                    alert("더 이상 사진을 추가할 수 없습니다.");
 	                }
+	            	
 	            });
 	            
 	        });
@@ -114,7 +122,6 @@
 	                reader.readAsDataURL(input.files[0]);
 	            }
 	        }
-        
         </script>
         
         
@@ -141,7 +148,7 @@
                  <div>글수정페이지</div>
                     
                    <div>
-						<form action="./boardEdit" method="post" id="form">
+						<form action="./boardEdit" method="post" id="form" enctype="multipart/form-data">
 							<div class="titleBox">
 								<input type="text" class="" id="btitle" name="btitle" value="${bdetail.btitle }">
 							</div>
@@ -162,7 +169,7 @@
 							</div>
 						
 						<div class="buttonBox">
-							<button type="" class="editbtn">수정하기</button>
+							<button type="submit" class="editbtn">수정하기</button>
 						</div>
 						</form>
 					</div>

@@ -1,12 +1,30 @@
 @charset "UTF-8";
 
+.cateBox{
+	width: 80%;
+	margin-bottom: 20px;
+	padding: 0;
+	float: right;
+}
+.boardListBox{
+	margin: auto;
+	padding: 0;
+	width: 80%;
+	
+}
+
 #boardList{
    margin: auto;
    margin-top: 20px;
    margin-bottom: 20px;
    padding: 0;
-   width: 80%;
+   width: 100%;
    height: 70%;
+}
+
+.boardRow{
+		
+	
 }
 
 #cateBtn{

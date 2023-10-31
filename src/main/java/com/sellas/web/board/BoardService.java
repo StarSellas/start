@@ -20,6 +20,11 @@ public class BoardService {
 	public List<Map<String, Object>> setupboardList(int cate) {
 		return boardDAO.setupboardList(cate);
 	}
+	
+	public List<Map<String, Object>> mainList(int cate) {
+		return boardDAO.mainList(cate);
+	}
+	
 	public int boardWrite(Map<String, Object> map) {
 		map.put("muuid", "6fd651fd-9922-43c3-b0d9-57e7e6ea4c14");
 		return boardDAO.boardWrite(map);
@@ -31,6 +36,10 @@ public class BoardService {
 
 	public Map<String, Object> boardDetail(Map<String, Object> map) {
 		return boardDAO.boardDetail(map);
+	}
+
+	public void boardReadUP(Map<String, Object> map) {
+		boardDAO.boardReadUP(map);
 	}
 
 	public List<Map<String, Object>> imageList(Map<String, Object> map) {
@@ -65,5 +74,8 @@ public class BoardService {
 	public int commentEdit(Map<String, Object> map) {
 		return boardDAO.commentEdit(map);
 	}
+
+
+
 
 }

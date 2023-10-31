@@ -21,6 +21,14 @@
         
         <!-- ******************* 추가 *********************** -->
         <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+        <script src="./js/jquery-3.7.0.min.js"></script>
+        
+		<script type="text/javascript">
+			$(function(){
+				
+				
+			});
+		</script>        
         
     </head>
     <body>
@@ -29,9 +37,14 @@
       style="z-index: 10">
       <div class="container px-4 px-lg-5">
          <a class="navbar-brand" href="/">SellAS</a>
-         <c:if test="${sessionScope.muuid ne null}">
-	         <span>로그인완</span>
-         </c:if>
+         <c:choose>
+	         <c:when test="${sessionScope.muuid eq null}">
+			     <a href="/login">로그인</a>
+		     </c:when> 
+		     <c:otherwise> 
+		         <span>로그인완</span>
+		     </c:otherwise> 
+         </c:choose>
          <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
       </div>
    </nav>
@@ -42,51 +55,76 @@
         <!-- Section-->
         <section class="py-5">
         
-            <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="container px-4 mt-5" style="z-index: 10" id="productContainer">
+                <div class="justify-content-center">
 
-				<!-- 현재 게시판 카테고리 띄우기 -->
-				<% Map<String, String[]> paramMap = request.getParameterMap();
-				if (paramMap.isEmpty()) { // URL에 쿼리 매개변수가 없는 경우 %>
-					<a id="cateBtn" href="/board?cate=1">공지사항</a>
-				<% } else {	// URL에 쿼리 매개변수가 있는 경우 %>
-					<c:forEach items="${board}" var="board">
-						<c:if test="${param.cate eq board.sno}">
-							<a id="cateBtn" href="/board?cate=${board.sno }">${board.sname }</a>
-						</c:if>
-					</c:forEach>
-				<% } %>
-			
+
 				<!-- 게시판 카테고리 드롭다운 -->
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4" id="cateBar">
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						게시판
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="/board?cate=1">공지사항</a></li>
-							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" href="/board?cate=2">판매요청</a></li>
-							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" href="/board?cate=3">나눔</a></li>
-						</ul>
-					</li>
-				</ul>
-
+				<div class="cateBox">
+		            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 align-items-end" id="cateBar">
+		               <li class="nav-item dropdown">
+		               <c:choose>
+		                  <c:when test="${empty param}">
+		                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+		                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		                     게시판
+		                     </a>
+		                  </c:when>
+		                  <c:otherwise>
+		                     <c:forEach items="${board}" var="board">
+		                        <c:if test="${param.cate eq board.sno}">
+		                           <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+		                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		                           ${board.sname }
+		                           </a>
+		                         </c:if> 
+		                     </c:forEach>
+		                  </c:otherwise>
+		               </c:choose>
+		               
+		                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+		                     <c:forEach items="${board}" var="board">
+		                        <li class="cateChange"><a class="dropdown-item" href="/board?cate=${board.sno }">${board.sname }</a></li>
+		                     </c:forEach>
+		                  </ul>
+		               </li>
+		            </ul>
+	            </div>
             
-            <div>
+            <div class="boardListBox">
                <table id="boardList">
-                  <c:forEach items="${list}" var="list">
-                     <tr>
-                        <td class="btitle" onclick="location.href='/boardDetail?cate=${param.cate}&bno=${list.bno }'" data-bno="${list.rowNum}">
-                        	<c:if test="${list.bthumbnail eq 0}"> <span>i</span> </c:if>
-                        	${list.rowNum} & ${list.bno}. ${list.btitle} (${list.commentcount})
-                        </td>
-                        <td>${list.bdate}</td>
-                        <td>${list.bread}</td>
-                     </tr>
-                  </c:forEach>
+               		<c:if test="${empty param}">
+               		
+               			<c:forEach items="${mainList}" var="mainList">
+		                     <tr class="boardRow">
+		                        <td>
+		                        	${mainList.rowNum} (${mainList.bno})
+		                        </td>
+		                        <td class="btitle" onclick="location.href='/boardDetail?cate=${mainList.sno}&bno=${mainList.bno }'" data-bno="${mainList.rowNum}">
+		                        	${mainList.btitle}
+		                        </td>
+		                        <td>(${mainList.commentcount})</td>
+		                        <td>${mainList.bdate}</td>
+		                        <td>${mainList.bread}</td>
+		                     </tr>
+                  		</c:forEach>
+               		</c:if>
+               		
+             		<c:if test="${param.cate ne null }">
+						<c:forEach items="${list}" var="list">
+		                     <tr class="boardRow">
+		                        <td><c:if test="${list.bthumbnail eq 0}"> <span>i</span> </c:if>
+		                        	${list.rowNum} (${list.bno})
+		                        </td>
+		                        <td class="btitle" onclick="location.href='/boardDetail?cate=${list.sno}&bno=${list.bno }'" data-bno="${list.rowNum}"> <%--  --%>
+		                        	${list.btitle}
+		                        </td>
+		                        <td>(${list.commentcount})</td>
+		                        <td>${list.bdate}</td>
+		                        <td>${list.bread}</td>
+		                     </tr>
+                  		</c:forEach>             		
+             		</c:if>
                </table>
             </div>
             
@@ -98,8 +136,8 @@
 
         		 </div>
             </div>
-            
         </section>
+        
         <!-- Footer-->
         <footer id="footer">
             <div class="container">

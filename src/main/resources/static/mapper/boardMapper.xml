@@ -3,7 +3,7 @@
 <mapper namespace="com.sellas.web.board.BoardDAO">
 	
 	<select id="boardList" parameterType="Integer" resultType="Map">
-		SELECT *, (SELECT COUNT(*) FROM boardview WHERE sno = #{cate}) AS COUNT
+		SELECT *, (SELECT COUNT(*) FROM boardview WHERE sno = #{cate}) AS count
 			FROM(
 				SELECT CAST(@ROWNUM:=@ROWNUM+1 AS UNSIGNED) AS rowNum,
 				b.* FROM boardview b, (SELECT @ROWNUM:= 0) AS R
@@ -16,6 +16,10 @@
 	<select id="setupboardList" parameterType="Integer" resultType="Map">
 		SELECT * FROM setupboard 
 	</select>
+	
+	<select id="mainList" parameterType="Integer" resultType="Map">
+		SELECT * FROM boardview	ORDER BY bread DESC	LIMIT 0, 20
+	</select>
 
 	<select id="boardDetail" parameterType="Map" resultType="Map">
 		SELECT *, (SELECT sname from setupboard WHERE sno=#{cate}) AS sname 
@@ -27,6 +31,11 @@
 		SELECT * FROM boardimage
 		WHERE bno=#{bno}
 	</select>
+	
+	<update id="boardReadUP" parameterType="Map">
+		UPDATE board SET bread = bread + 1
+		WHERE bno=#{bno}
+	</update>
 
 	<insert id="boardWrite" parameterType="Map">
 		INSERT INTO board (sno, muuid, btitle, bcontent)
