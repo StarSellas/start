@@ -29,10 +29,15 @@ UPDATE member SET mpoint=mpoint+#{rpoint} WHERE muuid=#{targetMember}
 </select>
 
 
-<select id="isNicknameExists" parameterType="Map" resultType="int">
+<select id="isNicknameExists" parameterType="String" resultType="int">
 	SELECT COUNT(*)
 	FROM member
 	WHERE mnickname=#{newNickname}
 </select>
+
+
+<update id="nicknameModify" parameterType="Map">
+UPDATE member SET mnickname=#{newNickname} WHERE muuid=#{uuid}
+</update>
 
 </mapper>
