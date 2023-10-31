@@ -128,6 +128,7 @@
                     
                   <div><a href="/board?cate=${bdetail.sno }">${bdetail.sname }</a></div>
 
+				<!-------------------- 게시글창 -------------------->
 				<div class="detailContainer">
 					<div class="titleBox">
 						<div>

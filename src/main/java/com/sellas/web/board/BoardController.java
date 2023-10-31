@@ -58,7 +58,9 @@ public class BoardController {
 							@RequestParam Map<String, Object> map) {
 		
 		int imgResultCount = 0;
+		System.out.println(map);
 		int writeResult = boardService.boardWrite(map); 
+		//{btitle=나눔에 글을 쓰려는데, bcontent=이게 , cate=2, sname=나눔}
 		//System.out.println(boardimgList);
 		//[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@72ec8d18]
 		if(writeResult == 1) {

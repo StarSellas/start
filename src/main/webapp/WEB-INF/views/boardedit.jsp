@@ -29,7 +29,6 @@
         		let count = 0;
         		let noEditList = [];
         		
-        		
         		$(".imgEditbtn").click(function(){
         			
         			// 이미지박스
@@ -53,6 +52,9 @@
         			boardImgBox.after(imgInputBox);
         			boardImgBox.hide();
         			
+        			
+        			// 그니까 여기서는 수정한 이미지/수정안한 이미지를 구분해야 하는데
+        			// 수정안한 이미지 이름을 가져가고 싶은데 어떻게 할지 고민 
         		});
         		
         	});

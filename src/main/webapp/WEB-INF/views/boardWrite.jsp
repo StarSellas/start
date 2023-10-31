@@ -17,11 +17,32 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/   " rel="stylesheet">
         
         <!-- ******************* 추가 *********************** -->
         <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
         <script src="./js/jquery-3.7.0.min.js"></script>
+        
+        <script type="text/javascript">
+        	$(function(){
+				$(".cateForWrite").click(function(){
+					
+					let cate = $(this).text();	// 변경카테고리
+					$(".changeCate").text(cate);	// 선택값으로 변경
+					console.log("바꿀카테고리 : "+ cate);
+					
+					console.log($(".cateWrite").val());	// 현재 카테고리값 (db로 가는 cate)
+					let sname = $(".cateWrite").val();
+					let sno = $(this).siblings(".changeCate").val();
+					console.log("바꿀 sno :" + sno)
+					
+					
+					$(".cateNameWrite").val(cate);
+					console.log("바꾼게 나와야지.. : " + $(".cateNameWrite").val());
+					
+					
+				})      		
+        	});
+        </script>
         
     </head>
     <body>
@@ -30,7 +51,7 @@
 		style="z-index: 10">
 		<div class="container px-4 px-lg-5">
 			<a class="navbar-brand" href="">SellAS</a>
-            <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
+            <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent">sname<img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
 		</div>
 	</nav>
 	<!-- Header-->
@@ -43,36 +64,44 @@
             <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-				<!-- 현재 게시판 카테고리 띄우기 -->
-				<% Map<String, String[]> paramMap = request.getParameterMap();
-				if (paramMap.isEmpty()) { // URL에 쿼리 매개변수가 없는 경우 %>
-					<a id="cateBtn" href="/board?cate=1">공지사항</a>
-				<% } else {	// URL에 쿼리 매개변수가 있는 경우 %>
-					<c:forEach items="${board}" var="board">
-						<c:if test="${param.cate eq board.sno}">
-							<a id="cateBtn" href="/board?cate=${board.sno }">${board.sname }</a>
-						</c:if>
-					</c:forEach>
-				<% } %>
-			
-				<!-- 게시판 카테고리 드롭다운 -->
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4" id="cateBar">
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						게시판
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="/board?cate=1">공지사항</a></li>
-							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" href="/board?cate=2">판매요청</a></li>
-							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" href="/board?cate=3">나눔</a></li>
-						</ul>
-					</li>
-				</ul>
+					<!-- 게시판 카테고리 드롭다운 -->
+					<div class="cateBox">
+			            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 align-items-end" id="cateBar">
+			               <li class="nav-item dropdown">
+			               <c:choose>
+			                  <c:when test="${empty param}">
+			                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+			                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			                     게시판
+			                     </a>
+			                  </c:when>
+			                  <c:otherwise>
+			                     <c:forEach items="${board}" var="board">
+			                        <c:if test="${param.cate eq board.sno}">
+			                           <a class="nav-link dropdown-toggle changeCate" id="navbarDropdown" href="#"
+			                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			                           ${board.sname }
+			                           </a>
+			                         </c:if> 
+			                     </c:forEach>
+			                  </c:otherwise>
+			               </c:choose>
+			               
+			                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			                     <c:forEach items="${board}" var="board">
+			                        <li class="cateChange">
+			                        	<a class="dropdown-item cateForWrite" href="#">
+				                        	${board.sname }
+			                        	</a>
+			                        	<input type="hidden" class="changeCate" value="${board.sno }">
+			                        </li>
+			                     </c:forEach>
+			                  </ul>
+			               </li>
+			            </ul>
+		            </div>
 				
-				
+					<!-------------------- 글쓰기창 -------------------->
 					<div>
 						<form action="./boardWrite" method="post" enctype="multipart/form-data">
 							<div class="btitleBox">
@@ -86,7 +115,7 @@
                     				<div id="imagePreviews"></div>
                     			</div>
 							</div>
-							<input type="hidden" name="cate" value="${param.cate}">
+							<input type="hidden" class="cateWrite" name="cate" value="${param.cate}">
 							<div class="bwriteBtnBox">
 								<button type="submit" class="bwriteButton">글쓰기</button>
 							</div>
