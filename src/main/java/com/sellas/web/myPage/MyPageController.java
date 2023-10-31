@@ -68,28 +68,28 @@ public class MyPageController {
 	}
 	
 	
-	//닉네임중복검사
+	/**
+	 * 닉네임 중복검사
+	 * @param newNickname
+	 * @return
+	 */
     @PostMapping("/profileEdit/isNicknameExists")
     @ResponseBody
     public int isNicknameExists(@RequestParam("newNickname") String newNickname) {
-    	
-    	System.out.println("뭐담겼지"+newNickname);
-	int result = myPageService.isNicknameExists(newNickname);
-    	
+	int result = myPageService.isNicknameExists(newNickname); 	
     	return result;
     }
 	
-	
-    
-    
-    @PostMapping("/nicknameModify")
+
+    @PostMapping("/profileEdit/nicknameModify")
     @ResponseBody
-    public ResultDTO mypageModify(@RequestParam Map<String, Object> map, Model model) {
-    ResultDTO resultDTO = new ResultDTO();
+    public int mypageModify(@RequestParam Map<String, Object> map, HttpSession session) {
     
+    	System.out.println("뭐있음?"+map);
+    	map.put("uuid",session.getAttribute("muuid"));
+    	int result = myPageService.nicknameModify(map);
 
-
-      return resultDTO;
+      return result;
     }
 	
 

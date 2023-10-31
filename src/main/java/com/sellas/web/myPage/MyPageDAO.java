@@ -17,4 +17,6 @@ public interface MyPageDAO {
 
 	int isNicknameExists(String newNickname);
 
+	int nicknameModify(Map<String, Object> map);
+
 }

@@ -65,6 +65,11 @@ public class MyPageService {
 		return myPageDAO.isNicknameExists(newNickname);
 	}
 
+	public int nicknameModify(Map<String, Object> map) {
+
+		return myPageDAO.nicknameModify(map);
+	}
+
 
 	
 
