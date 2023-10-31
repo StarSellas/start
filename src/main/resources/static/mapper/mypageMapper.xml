@@ -18,11 +18,21 @@ VALUES(#{pno}, #{muuid}, #{rcontent}, #{rpoint})
 
 
 <update id="updatePoint" parameterType="com.sellas.web.myPage.ReviewDTO">
-
 UPDATE member SET mpoint=mpoint+#{rpoint} WHERE muuid=#{targetMember}
-
 </update>
 
 
+<select id="memberInfo" parameterType="String" resultType="Map">
+	SELECT mnickname, mpoint
+	FROM member
+	WHERE muuid=#{uuid}
+</select>
+
+
+<select id="isNicknameExists" parameterType="Map" resultType="int">
+	SELECT COUNT(*)
+	FROM member
+	WHERE mnickname=#{newNickname}
+</select>
 
 </mapper>

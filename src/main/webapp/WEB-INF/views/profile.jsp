@@ -21,10 +21,11 @@
 <!-- Core theme CSS (includes Bootstrap)-->
 <link href="css/styles.css" rel="stylesheet" />
 
+
 <!-- ******************* 추가 *********************** -->
 <link rel="stylesheet"
 	href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="./css/mypage.css">
+<link rel="stylesheet" href="../css/mypage.css">
 
 </head>
 <body>
@@ -85,7 +86,8 @@
 					<c:if test="${exp >= 15 && exp <= 20}">고래</c:if>
 					<c:if test="${exp > 20 }">슈퍼고래</c:if>
 				</div>
-				<button class="profile" onclick="window.location.href='profile'">프로필수정</button>
+				
+				<button class=profile onclick="window.location.href='profileEdit/${sessionScope.muuid}'">프로필수정</button>
 			</div>
 			<div class="experience-section"
 				style="position: relative; margin-top: 100px;">
