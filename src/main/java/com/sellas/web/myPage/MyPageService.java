@@ -18,8 +18,8 @@ public class MyPageService {
 	@Transactional(rollbackFor = Exception.class)
 	public int inputReview(ReviewDTO reviewDTO, HttpSession session) {
 		
-		System.out.println("세션에 내 uuid있나요?"+session.getAttribute("uuid"));
-		   String uuid = (String) session.getAttribute("uuid");
+		System.out.println("세션에 내 uuid있나요?"+session.getAttribute("muuid"));
+		   String uuid = String.valueOf(session.getAttribute("muuid"));
 		    reviewDTO.setMuuid(uuid);
 		
 	    try {
@@ -28,7 +28,7 @@ public class MyPageService {
 	        reviewDTO.setRpoint(rpoint);
 	        
 	        //상대방의 uuid가져오기
-	        if(uuid ==  reviewDTO.getPseller() ) {
+	        if(uuid.equals(reviewDTO.getPseller())) {
 	        	String targetMember = reviewDTO.getPbuyer();
 	        	reviewDTO.setTargetMember(targetMember);
 	        	
@@ -54,6 +54,15 @@ public class MyPageService {
 
 	public ReviewDTO findId(String pno) {
 		return myPageDAO.findId(pno);
+	}
+
+	public Map<String, Object> memberInfo(String uuid) {
+		return myPageDAO.memberInfo(uuid);
+	}
+
+	public int isNicknameExists(String newNickname) {
+		
+		return myPageDAO.isNicknameExists(newNickname);
 	}
 
 

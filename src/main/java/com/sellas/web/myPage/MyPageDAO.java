@@ -13,4 +13,8 @@ public interface MyPageDAO {
 
 	int updatePoint(ReviewDTO reviewDTO);
 
+	Map<String, Object> memberInfo(String uuid);
+
+	int isNicknameExists(String newNickname);
+
 }

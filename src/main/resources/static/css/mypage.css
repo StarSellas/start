@@ -49,4 +49,11 @@
 	font-size: 20px;
 }
 
+
+/* 프로필 수정페이지만 관련있습니다. */
+
+.nicknameChange{
+	margin-top: 80px;
+}
+
 	
