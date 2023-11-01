@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +18,12 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+
+import springfox.documentation.spring.web.json.Json;
 
 @Controller
 public class BoardController {
@@ -165,6 +169,20 @@ public class BoardController {
 		return "boardedit";
 	}
 	
+	// 이미지 삭제 로직 (ajax)
+	@ResponseBody
+	@PostMapping("imgDelete")
+	public String imgDelete(@RequestParam Map<String, Object> map) {
+		JSONObject json = new JSONObject();
+		//System.out.println("지울사진들 map :" + map);
+		//지울사진들 map :{imgDel0=20231031095234num0라이언2.png, bno=68, imgDel1=20231031095234num1라이언2.png}
+		int result = boardService.imgDelete(map);
+		System.out.println("컨트롤러result : " + result);
+		json.put("result", result);
+		
+		return json.toString();
+	}
+	
 	// 게시글수정 로직
 	@PostMapping("boardEdit")
 	public String boardEdit(@RequestParam (value="boardimg", required = false) List<MultipartFile> boardimgList,
@@ -206,18 +224,34 @@ public class BoardController {
 		               }
 
 		               File boardimgName = new File(path, realFileName);
-		               //System.out.println(boardimgName);
-
-		               
-		               
+						System.out.println(boardimgName);
+						
+						try {
+							FileCopyUtils.copy(boardimgList.get(i).getBytes(), boardimgName);
+						} catch (IllegalStateException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						
+						map.put("bimage", realFileName);
+						System.out.println("map " + (i+1) + "번째 : " +  map);
+						int imgResult = boardService.boardImage(map);
+						System.out.println("imgResult "+ (i+1) + " 번째 : " + imgResult);
+						
+						if (imgResult == 1 && i == 0) {
+							System.out.println("이걸넣을건데 :" + map.get("bimage"));
+							int result = boardService.setThumbnail(map);
+							System.out.println("제발요: "+ result);
+						}
 				
-		            } //for문
-		            
-		         }	// if_파일유무
-				
-			}	// if_글수정성공
-		
-		 return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
+		        	} // for문
+					System.out.println("글수정완");
+			} // if(!boardimg.isEmpty()
+			return "redirect:/boardDetail?cate=" + map.get("cate") + "&bno=" + map.get("bno");
+		}	// if(writeResult == 1) 
+			System.out.println("글쓰기&파일업로드 실패");
+			return "redirect:/boardDetail?cate=" + map.get("cate");
 	}
 	
 	// 게시글삭제 로직

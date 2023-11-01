@@ -87,5 +87,9 @@
 		UPDATE comment SET cdelete=1, ccontent=#{ccontent}, cdate=CURRENT_TIMESTAMP
 		WHERE cno=#{cno}
 	</update>
+	
+	<delete id="imgDelete" parameterType="Map">
+		DELETE FROM boardimage WHERE bimage=#{imgDel} and bno=#{bno}
+	</delete>
 
 </mapper>

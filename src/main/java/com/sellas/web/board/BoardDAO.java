@@ -38,6 +38,8 @@ public interface BoardDAO {
 
 	int commentEdit(Map<String, Object> map);
 
+	int imgDelete(Map<String, Object> map);
+
 
 
 }

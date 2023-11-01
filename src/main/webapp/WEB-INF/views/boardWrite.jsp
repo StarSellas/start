@@ -38,7 +38,7 @@
 					
 					$(".cateNameWrite").val(cate);
 					console.log("바꾼게 나와야지.. : " + $(".cateNameWrite").val());
-					
+					// 요기 하던거 계속...
 					
 				})      		
         	});
@@ -109,7 +109,6 @@
 							</div>
 							<textarea id="bcontent" name="bcontent" placeholder="내용을 입력해주세요"></textarea>
 							<div class="boardimgBox">
-								<input type="file" name="boardimg" class="boardimg" id="boardimg">
 								<button id="addPhotoButton" type="button">사진 추가하기</button>
 								<div id="photoInputs">
                     				<div id="imagePreviews"></div>

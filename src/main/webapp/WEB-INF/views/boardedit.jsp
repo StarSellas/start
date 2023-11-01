@@ -26,36 +26,89 @@
         
         	$(function(){
         		
+        		let bno = ${bdetail.bno};
         		let count = 0;
         		let noEditList = [];
+        		let nameToRemove = [];	// delete할 bimage들
+        		let data = {};	// delete할 bimage들 (ajax전송을 위한 객체)
         		
+        		// 기존게시글 이미지 추출
+        		$('.boardImgBox').each(function(){
+        			bimageName = $(this).text();
+        			//console.log("이미지들:" + bimageName);
+        			noEditList.push(bimageName);
+        			console.log("noEditList : " + noEditList);
+        		})
+        				
+        		// 이미지 수정 버튼 클릭
         		$(".imgEditbtn").click(function(){
         			
+        			count++;
         			// 이미지박스
         			let boardImgBox = $(this).parents(".boardImgBox");
         			// 이미지이름
-        			let bimage = $(this).parents(".boardImgBox").text();
+        			let bimage = $(this).parents(".boardImgBox").text().trim();
+        			// 이미지 수정 버튼 클릭 => 기존img 이름 nameToRemove 배열에 추가
+        			nameToRemove.push(bimage);
+        			console.log("nameToRemove : " + nameToRemove)
         			
-        			console.log(bimage);
+        			//noEditList = noEditList.filter(item => !nameToRemove.includes(item));
+        			//console.log("지운 후 noEditList : " + noEditList);
         			
-        			// 이미지첨부박스
+        			// nameToRemove 배열을  data 객체로 변환(키값은 imgDel1, imgDel2....)
+        			for (let i = 0; i < nameToRemove.length; i++) {
+  						data["imgDel" + i] = nameToRemove[i];
+        			}
+        			// data에 bno추가
+        			data.bno = bno;
+	        		//console.log(data);
+        			// {imgDel0: '20231031095234num0라이언2.png', imgDel1: '20231031095234num1라이언2.png'}
+        			
+	        		// 수정이미지 첨부박스
         			let imgInputBox = "";
-        	
         			imgInputBox += '<div class="boardimgBox">'
         						+  '<input type="file" name="boardimg" class="boardimg" id="boardimg">';
-        						+  '<input type="hidden" name="imgNo" value="'+count+'">';
         						+  '<button id="addPhotoButton" type="button">사진 추가하기</button>';
         						+  '<div id="photoInputs"><div id="imagePreviews"></div></div>';
         			
-        			count++;
-        			console.log("count : " + count);
         			boardImgBox.after(imgInputBox);
         			boardImgBox.hide();
         			
-        			
-        			// 그니까 여기서는 수정한 이미지/수정안한 이미지를 구분해야 하는데
-        			// 수정안한 이미지 이름을 가져가고 싶은데 어떻게 할지 고민 
         		});
+        		
+        		// 글수정 버튼 클릭 => data(삭제할이미지)를 매개변수로 imgDelete 실행
+        		$(".editbtn").click(function(){
+        			imgDelete(data);
+        		});
+        		
+        		// 이미지 삭제함수
+        		function imgDelete(data){
+        			
+        			console.log("ajax로 보낼 data : " + JSON.stringify(data, null, 2));
+        			
+        			$.ajax({
+						url : "./imgDelete",
+						type : "post",
+						data : data,
+							dataType : "json",
+							success : function(data) {
+								
+								// 이미지 삭제 성공 시 form 제출
+								if(data.result == 1){
+									formsubmit();  
+								}
+							},
+							error : function(error) {
+								alert("에러발생");
+								}
+						});
+        		}
+        		
+        		//form 최종제출
+		 		function formsubmit(){
+					alert("form제출");
+		 			document.getElementById('form').submit();
+				}
         		
         	});
         
@@ -64,8 +117,9 @@
         
       	  $(function() {
 	        	
+      		  	var bimagecount = ${bdetail.bimagecount}
 	            var maxPhotos = 3;
-	            var nextPhotoId = 1;
+	            var nextPhotoId = 1 + bimagecount;
 	
 	            $("#addPhotoButton").click(function () {
 	                
@@ -168,10 +222,11 @@
 										${imageList.bimage}<button class="imgEditbtn" type="button"></button></div>
 									</c:forEach>
 								</c:if>
+								<button id="addPhotoButton" type="button">사진 추가하기</button>
 							</div>
 						
 						<div class="buttonBox">
-							<button type="submit" class="editbtn">수정하기</button>
+							<button type="button" class="editbtn">수정하기</button>
 						</div>
 						</form>
 					</div>
