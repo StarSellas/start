@@ -39,8 +39,7 @@ public class SignupController {
 		return "redirect:/login";
 	}
 	
-	/* 이메일 인증번호 발신 */
-	
+	// 이메일 인증번호 발신
 	@ResponseBody
 	@PostMapping("/sendVerificationCode")
 	public boolean sendVerificationCode(@RequestParam String email, HttpServletRequest request) {
@@ -59,8 +58,7 @@ public class SignupController {
 		}
 	}
 	
-	/* 이메일 인증번호 확인 */
-  
+	// 이메일 인증번호 확인  
 	@ResponseBody
 	@PostMapping("/checkVerificationCode")
 	public boolean checkVerificationCode(@RequestParam String code, HttpServletRequest request) {
@@ -75,8 +73,7 @@ public class SignupController {
 		}
 	}
 	
-	/* 중복 검사 */
-  
+	// 중복 검사
 	@ResponseBody
 	@PostMapping("/duplicationCheck")
 	public int duplicationCheck(@RequestParam String fieldId, @RequestParam String value) {

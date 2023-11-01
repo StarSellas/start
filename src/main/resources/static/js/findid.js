@@ -224,9 +224,9 @@ function controllButton() {
 /* 아이디 찾기 페이징 */
 function showPage(pageId) {
 
-	let pages = document.querySelectorAll('.page');
+	let pages = document.querySelectorAll(".page");
 	for (let i = 0; i < pages.length; i++) {
-		pages[i].style.display = 'none';
+		pages[i].style.display = "none";
 	}
-	document.getElementById(pageId).style.display = 'block';
+	document.getElementById(pageId).style.display = "block";
 }
