@@ -118,8 +118,10 @@
       	  $(function() {
 	        	
       		  	var bimagecount = ${bdetail.bimagecount}
-	            var maxPhotos = 3;
-	            var nextPhotoId = 1 + bimagecount;
+	            var maxPhotos = 3-bimagecount;
+      		  	console.log("이미지갯수:"+bimagecount);
+      		  	console.log("최대:"+maxPhotos);
+	            var nextPhotoId = 1;
 	
 	            $("#addPhotoButton").click(function () {
 	                
@@ -136,7 +138,6 @@
 	                            preview.attr("src", resizedDataUrl);
 	                        }.bind(this));
 	                    });
-
 	                    nextPhotoId++;
 	                } else {
 	                    alert("더 이상 사진을 추가할 수 없습니다.");
@@ -199,7 +200,7 @@
         <section class="py-5">
         
             <div class="container px-4 px-lg-5 mt-5" style="z-index: 10">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="justify-content-center">
                     
                  <div>글수정페이지</div>
                     
@@ -222,6 +223,9 @@
 										${imageList.bimage}<button class="imgEditbtn" type="button"></button></div>
 									</c:forEach>
 								</c:if>
+								<div id="photoInputs">
+                    				<div id="imagePreviews"></div>
+                    			</div>
 								<button id="addPhotoButton" type="button">사진 추가하기</button>
 							</div>
 						

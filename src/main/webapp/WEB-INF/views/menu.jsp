@@ -16,7 +16,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/board.css" rel="stylesheet">
+        <link href="css/menu.css" rel="stylesheet">
         
         <!-- ******************* 추가 *********************** -->
         <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -42,16 +42,32 @@
         <section class="py-5">
         
             <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="justify-content-center">
 
-				<div><a href="/board">게시판</a></div>	
-				 <ul>
-                      <li><a href="/board?cate=1">공지사항</a></li>
-                      <li><a href="/board?cate=2">판매요청</a></li>
-                      <li><a href="/board?cate=3">나눔</a></li>
-                 </ul>
-
-			</div>
+					<div class="boardMenuBox">
+						<div><a href="/board">게시판</a></div>	
+						 <ul class="boardMenu">
+		                      <li><a href="/board?cate=1">공지사항</a></li>
+		                      <li><a href="/board?cate=2">판매요청</a></li>
+		                      <li><a href="/board?cate=3">나눔</a></li>
+		                 </ul>
+	                 </div>
+	                 
+	                 <div class="itemcategoryBox">
+	                 <div><a href="/">카테고리</a></div>	
+						 <ul class="itemcategory">
+		                      <li><a href="/">디지털기기 / 가전</a></li>
+		                      <li><a href="/">가구 / 인테리어</a></li>
+		                      <li><a href="/">생활 / 주방</a></li>
+		                      <li><a href="/">도서</a></li>
+		                      <li><a href="/">티켓 / 교환권</a></li>
+		                      <li><a href="/">의류 / 잡화</a></li>
+		                      <li><a href="/">가공식품</a></li>
+		                      <li><a href="/">기타</a></li>
+		                 </ul>
+	                 </div>
+	                 
+				</div>
             </div>
             
         </section>
@@ -59,9 +75,9 @@
         <footer id="footer">
             <div class="container">
 	            <ul class="menubar">
-	            	<li><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
-	            	<li><i class="xi-message xi-2x"></i><div id="menu">채팅</div></li>
-	            	<li><i class="xi-profile xi-2x"></i><div id="menu">마이페이지</div></li>
+	            	<li onclick="location.href='./'"><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
+	            	<li onclick="location.href='#'"><i class="xi-message xi-2x"></i><div id="menu">채팅</div></li>
+	            	<li onclick="location.href='#'"><i class="xi-profile xi-2x"></i><div id="menu">마이페이지</div></li>
 	            </ul>
             </div>
         </footer>

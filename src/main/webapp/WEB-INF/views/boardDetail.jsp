@@ -24,8 +24,12 @@
         
         <script type="text/javascript">
         
+        	// 댓글 전체보기 페이지로 이동
+        	function commentDetail(sno, bno){
+        		location.href="/commentDetail?cate="+sno+"&bno="+bno;
+        	}
+        
      		// 글수정
-        			
 	        function bedit(sno, bno){
 	        	if(confirm("글을 수정하시겠습니까?")){
 	             	location.href="/boardEdit?cate="+sno+"&bno="+bno;
@@ -40,71 +44,62 @@
         	}
         	
         	// 댓글삭제
-        	function cdelete(cno){
-      			 if(confirm("댓글을 삭제하시겠습니까?")){
-      				location.href="/commentDelete?cate=${param.cate}&bno=${param.bno}"+"&cno="+cno;
+        	function cdelete(cno) {
+        		if (confirm("댓글을 삭제하시겠습니까?")) {
+        			location.href = "/commentDelete?cate=${param.cate}&bno=${param.bno}" + "&cno=" + cno;
         		}
         	}
         	
+        	// 댓글수정
+        	$(function() {
+        	
+        		$(".cedit").click(function() {
+        			//alert("!");
+        			let cno = $(this).parent().siblings(".cContentBox").children(".cno").val();
+        			let bno = ${param.bno };
+        			let cate = ${param.cate };
+        			let cdeleteButton = $(this).siblings(".cdelete");
+        			// 댓글내용
+        			let ccontent = $(this).parent().siblings(".cContentBox").children(".content").text();
+        			// 댓글박스
+        			let contentBox = $(this).parent().siblings(".cContentBox");
+        			// 댓글버튼박스
+        			let cButtonBox = $(this).parent(".commentsBtn");
+        			// 수정댓글창
+        			let newContentBox = ""
+        	
+        			newContentBox += '<div class="newWriteBox">'
+        				+ '<form action="./commentEdit" method="post">'
+        				+ '<input type="hidden" name="bno" value="' + bno + '">'
+        				+ '<input type="hidden" name="cno" value="' + cno + '">'
+        				+ '<input type="hidden" name="cate" value="' + cate + '">'
+        				+ '<textarea class="cContent" name="ccontent">'
+        				+ ccontent
+        				+ '</textarea>'
+        				+ '<div class="commentsBtn">'
+        				+ '<button type="submit">등록</button>' // 등록 버튼
+        				+ '<button class="reset">취소</button>'
+        				+ '</div>'
+        				+ '</form>'
+        				+ '</div>';
+        	
+        	
+        			contentBox.after(newContentBox);
+        			contentBox.hide();
+        			cButtonBox.hide();
+        	
+        			// 수정취소버튼클릭 
+        			$(".reset").click(function() {
+        				$(this).parents(".newWriteBox").remove();
+        				contentBox.show();
+        				cButtonBox.show();
+        			});
+        	
+        		}) // cedit 클릭이벤트
+        	
+        	});
 			 
         </script>
-        <script type="text/javascript">
-        	// 댓글수정
-        	 $(function() {
-        	
-        		 $(".cedit").click(function(){
-        			 //alert("!");
-        			 let cno = $(this).parent().siblings(".cContentBox").children(".cno").val();
-        			 let bno = ${param.bno};
-        			 let cate = ${param.cate};
-        			 let cdeleteButton = $(this).siblings(".cdelete");
-        			 // 댓글내용
-        			 let ccontent = $(this).parent().siblings(".cContentBox").children(".content").text();
-        			 // 댓글박스
-        			 let contentBox = $(this).parent().siblings(".cContentBox");
-        			 // 댓글버튼박스
-        			 let cButtonBox = $(this).parent(".commentsBtn");
-        			 // 수정댓글창
-        			 let newContentBox = ""
-        			 
-        				 newContentBox += '<div class="newWriteBox">'
-        					    +  '<form action="./commentEdit" method="post">'
-        					    +  '<input type="hidden" name="bno" value="'+bno+'">'
-        					    +  '<input type="hidden" name="cno" value="'+cno+'">'
-        					    +  '<input type="hidden" name="cate" value="'+cate+'">'
-        					    +  '<textarea class="cContent" name="ccontent">'
-        					    +  ccontent
-        					    +  '</textarea>'
-        					    +  '<div class="commentsBtn">'
-        					    +  '<button type="submit">등록</button>' // 등록 버튼
-        					    +  '<button class="reset">취소</button>'
-        					    +  '</div>'
-        					    +  '</form>'
-        					    +  '</div>';
-        			 			   
-        			 			   
-        			 contentBox.after(newContentBox);
-        			 contentBox.hide();
-        			 cButtonBox.hide();
-        			 
-        			 // 수정취소버튼클릭 
-        			 $(".reset").click(function(){
-        				 $(this).parents(".newWriteBox").remove();
-        				 contentBox.show();
-            			 cButtonBox.show();
-        			 });
-        			 
-        		 }) // cedit 클릭이벤트
-
-        	});
-        </script>
-        <script type="text/javascript">
-        	
-        
-        
-        	
-        </script>
-        	
         
     </head>
     <body>
@@ -124,7 +119,7 @@
         <section class="py-5">
         
             <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="justify-content-center">
                     
                   <div><a href="/board?cate=${bdetail.sno }">${bdetail.sname }</a></div>
 
@@ -166,7 +161,7 @@
 							<div>댓글이 없습니다.</div>
 						</c:when>
 						<c:otherwise>
-							<button class="cWholeBtn" onclick="location.href='./commentDetail'">댓글 전체보기</button>
+							<button class="cWholeBtn" onclick="commentDetail(${bdetail.sno}, ${bdetail.bno})">댓글 전체보기</button>
 							<c:forEach items="${comments }" var="comments">
 								<div class="commentBox">
 										<div class="cContentBox">
@@ -216,6 +211,6 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <script src="js/comment.js"></script>
     </body>
 </html>

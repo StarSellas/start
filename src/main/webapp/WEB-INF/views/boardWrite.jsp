@@ -24,21 +24,23 @@
         
         <script type="text/javascript">
         	$(function(){
+        		
+        		// 게시판 카테고리 클릭
 				$(".cateForWrite").click(function(){
 					
-					let cate = $(this).text();	// 변경카테고리
-					$(".changeCate").text(cate);	// 선택값으로 변경
-					console.log("바꿀카테고리 : "+ cate);
+					// 여기에다가 관리자 grade 아니면 클릭 못하게 막기 
 					
-					console.log($(".cateWrite").val());	// 현재 카테고리값 (db로 가는 cate)
+					let cate = $(this).text().trim();	// 선택한 카테고리 이름
+					console.log("바꿀카테고리 : "+ cate);
+					$(".changeCateName").text(cate);	// 선택한 카테고리이름으로 변경
+					
 					let sname = $(".cateWrite").val();
+					console.log("현재 sno: " + sname);	// 현재 카테고리 번호
 					let sno = $(this).siblings(".changeCate").val();
 					console.log("바꿀 sno :" + sno)
 					
-					
-					$(".cateNameWrite").val(cate);
-					console.log("바꾼게 나와야지.. : " + $(".cateNameWrite").val());
-					// 요기 하던거 계속...
+					let result = $(".cateWrite").val(sno);	// 선택한 카테고리 번호로 변경 (db로 가는 cate)
+					console.log("최종 저장될 cate : " + result.val());
 					
 				})      		
         	});
@@ -62,7 +64,7 @@
         <section class="py-5">
         
             <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="justify-content-center">
 
 					<!-- 게시판 카테고리 드롭다운 -->
 					<div class="cateBox">
@@ -78,7 +80,7 @@
 			                  <c:otherwise>
 			                     <c:forEach items="${board}" var="board">
 			                        <c:if test="${param.cate eq board.sno}">
-			                           <a class="nav-link dropdown-toggle changeCate" id="navbarDropdown" href="#"
+			                           <a class="nav-link dropdown-toggle changeCateName" id="navbarDropdown" href="#"
 			                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
 			                           ${board.sname }
 			                           </a>
@@ -88,15 +90,13 @@
 			               </c:choose>
 			               
 			                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-			                     <c:forEach items="${board}" var="board">
-			                        <li class="cateChange">
-			                        	<a class="dropdown-item cateForWrite" href="#">
-				                        	${board.sname }
-			                        	</a>
-			                        	<input type="hidden" class="changeCate" value="${board.sno }">
-			                        </li>
-			                     </c:forEach>
-			                  </ul>
+								<c:forEach items="${board}" var="board">
+									<li class="cateChange">
+										<a	class="dropdown-item cateForWrite" href="#"> ${board.sname }</a> 
+										<input type="hidden" class="changeCate" value="${board.sno }">
+									</li>
+								</c:forEach>
+							</ul>
 			               </li>
 			            </ul>
 		            </div>
@@ -109,10 +109,10 @@
 							</div>
 							<textarea id="bcontent" name="bcontent" placeholder="내용을 입력해주세요"></textarea>
 							<div class="boardimgBox">
-								<button id="addPhotoButton" type="button">사진 추가하기</button>
 								<div id="photoInputs">
                     				<div id="imagePreviews"></div>
                     			</div>
+								<button id="addPhotoButton" type="button">사진 추가하기</button>
 							</div>
 							<input type="hidden" class="cateWrite" name="cate" value="${param.cate}">
 							<div class="bwriteBtnBox">

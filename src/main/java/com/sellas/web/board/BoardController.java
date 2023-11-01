@@ -23,6 +23,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import retrofit2.http.GET;
 import springfox.documentation.spring.web.json.Json;
 
 @Controller
@@ -63,14 +64,15 @@ public class BoardController {
 		
 		int imgResultCount = 0;
 		System.out.println(map);
-		int writeResult = boardService.boardWrite(map); 
+		int writeResult = boardService.boardWrite(map);
+		System.out.println("null일텐데? : " + boardimgList);
 		//{btitle=나눔에 글을 쓰려는데, bcontent=이게 , cate=2, sname=나눔}
 		//System.out.println(boardimgList);
 		//[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@72ec8d18]
 		if(writeResult == 1) {
-			
+			System.out.println("bno :" + map.get("bno"));
 			// 파일이 있다면 업로드
-			if(!boardimgList.isEmpty() && boardimgList != null) {
+			if(boardimgList != null && !boardimgList.isEmpty()) {
 				
 				for (int i = 0; i < boardimgList.size(); i++) {
 				
@@ -126,6 +128,7 @@ public class BoardController {
 				} // for문
 					System.out.println("업로드완"+ imgResultCount);
 			} // if(!boardimg.isEmpty()
+			
 			return "redirect:/boardDetail?cate=" + map.get("cate") + "&bno=" + map.get("bno");
 			
 		}	// if(writeResult == 1) 
@@ -187,14 +190,14 @@ public class BoardController {
 	@PostMapping("boardEdit")
 	public String boardEdit(@RequestParam (value="boardimg", required = false) List<MultipartFile> boardimgList,
 							@RequestParam Map<String, Object> map) {
-		System.out.println("map : " + map);
-		System.out.println("boardimgList : " + boardimgList);
+		//System.out.println("map : " + map);
+		//System.out.println("boardimgList : " + boardimgList);
 		//map : {btitle=테스트이미지, bcontent=업로드, bno=68, cate=2, boardimg1=pyos.png, boardimg3=pyos2.png}
 		int writeResult = boardService.boardEdit(map);
 			if(writeResult == 1) {
 				
 				// 파일이 있다면 업로드
-		         if(!boardimgList.isEmpty() && boardimgList != null) {
+		         if(boardimgList != null && !boardimgList.isEmpty()) {
 		            
 		            for (int i = 0; i < boardimgList.size(); i++) {
 		            
@@ -317,6 +320,19 @@ public class BoardController {
 			System.out.println("댓글수정 실패");
 			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
 		}
+	}
+	
+	// 댓글 전체보기 페이지
+	@GetMapping("commentDetail")
+	public String commentDetail(@RequestParam Map<String, Object> map, Model model) {
+		
+		List<Map<String, Object>> commentList = boardService.commentList(map);
+		System.out.println(commentList);
+		//[{bno=74, mnickname=pyo, cdate=15:17:23, cno=21, ccontent=, clike=0}, 
+		// {bno=74, mnickname=pyo, cdate=20:08:36, cno=22, ccontent=54545 되나? 또되나?, clike=0}]
+		model.addAttribute("comments", commentList);
+		
+		return "commentDetail";
 	}
 	
 	

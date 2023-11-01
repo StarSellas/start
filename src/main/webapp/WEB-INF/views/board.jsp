@@ -25,9 +25,9 @@
         
 		<script type="text/javascript">
 			$(function(){
-				
-				
-			});
+				$(".rowNum").hide();
+					
+			});	
 		</script>        
         
     </head>
@@ -97,15 +97,14 @@
                		
                			<c:forEach items="${mainList}" var="mainList">
 		                     <tr class="boardRow">
-		                        <td>
-		                        	${mainList.rowNum} (${mainList.bno})
+		                        <td class="rowNum">
+		                        	${mainList.rowNum}
 		                        </td>
 		                        <td class="btitle" onclick="location.href='/boardDetail?cate=${mainList.sno}&bno=${mainList.bno }'" data-bno="${mainList.rowNum}">
-		                        	${mainList.btitle}
+		                        	${mainList.btitle} <span class="commentcount">(${mainList.commentcount})</span>
 		                        </td>
-		                        <td>(${mainList.commentcount})</td>
-		                        <td>${mainList.bdate}</td>
-		                        <td>${mainList.bread}</td>
+		                        <td class="bdate">${mainList.bdate}</td>
+		                        <td class="bread">${mainList.bread}</td>
 		                     </tr>
                   		</c:forEach>
                		</c:if>
@@ -113,15 +112,14 @@
              		<c:if test="${param.cate ne null }">
 						<c:forEach items="${list}" var="list">
 		                     <tr class="boardRow">
-		                        <td><c:if test="${list.bthumbnail eq 0}"> <span>i</span> </c:if>
-		                        	${list.rowNum} (${list.bno})
+		                        <td class="rowNum"><c:if test="${list.bthumbnail eq 0}"> <span>i</span> </c:if>
+		                        	${list.rowNum}
 		                        </td>
 		                        <td class="btitle" onclick="location.href='/boardDetail?cate=${list.sno}&bno=${list.bno }'" data-bno="${list.rowNum}"> <%--  --%>
-		                        	${list.btitle}
+		                        	${list.btitle} <span class="commentcount">(${list.commentcount})</span>
 		                        </td>
-		                        <td>(${list.commentcount})</td>
-		                        <td>${list.bdate}</td>
-		                        <td>${list.bread}</td>
+		                        <td class="bdate">${list.bdate}</td>
+		                        <td class="bread">${list.bread}</td>
 		                     </tr>
                   		</c:forEach>             		
              		</c:if>
