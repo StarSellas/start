@@ -277,20 +277,23 @@ public class BoardController {
 	// 댓글쓰기
 	@PostMapping("commentWrite")
 	public String commentWrite(@RequestParam Map<String, Object> map) {
-		//System.out.println(map); // {ccontent=댓글다시써, cate=2, bno=4}
+		System.out.println(map); // {ccontent=adfasdfa, muuid=, cate=2, bno=74}
 		int result = boardService.commentWrite(map);
 		
 		if(result == 1) {
 			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
-		} else {
+		} else if(result == 0){
 			System.out.println("댓글쓰기 실패");
 			return "redirect:/boardDetail?cate="+map.get("cate")+"&bno="+map.get("bno");
+		} else {
+			return "login";
 		}
 	}
 	
 	// 댓글삭제
 	@GetMapping("commentDelete")
 	public String commentDelete(@RequestParam Map<String, Object> map) {
+		
 		System.out.println("잡아온값 :" +map);
 		// 잡아온값 :{cate=2, bno=5, cno=1}
 		int result = boardService.commentDelete(map);

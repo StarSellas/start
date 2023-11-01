@@ -37,15 +37,15 @@
       style="z-index: 10">
       <div class="container px-4 px-lg-5">
          <a class="navbar-brand" href="/">SellAS</a>
-         <c:choose>
-	         <c:when test="${sessionScope.muuid eq null}">
-			     <a href="/login">로그인</a>
-		     </c:when> 
-		     <c:otherwise> 
-		         <span>로그인완</span>
-		     </c:otherwise> 
-         </c:choose>
-         <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
+			<c:choose>
+				<c:when test="${sessionScope.muuid eq null}">
+					<a href="/login">로그인</a>
+				</c:when>
+				<c:otherwise>
+					<span>${sessionScope.mnickname} 로그인완</span>
+				</c:otherwise>
+			</c:choose>
+		<button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
       </div>
    </nav>
    <!-- Header-->
@@ -57,7 +57,6 @@
         
             <div class="container px-4 mt-5" style="z-index: 10" id="productContainer">
                 <div class="justify-content-center">
-
 
 				<!-- 게시판 카테고리 드롭다운 -->
 				<div class="cateBox">

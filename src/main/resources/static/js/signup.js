@@ -119,7 +119,7 @@ function validateOnKeyUp(event)	{
 				} else {
 					pwcheckInputChecked = true;
 					// pwcheck OK
-					clearMessage(msgDiv);
+					clearMessage("pwcheckMessage");
 				}
 			}
 			
@@ -276,7 +276,6 @@ function duplicationCheckOnFocusOut(event) {
 		}
 	});
 }
-
 
 /* 인증번호 발신 */
 function sendVerificationCode() {

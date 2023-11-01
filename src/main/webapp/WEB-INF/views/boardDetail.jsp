@@ -183,6 +183,7 @@
 						<div class="cWriteBox">
 							<form action="./commentWrite" method="post">
 								<textarea class="cContent" name="ccontent"></textarea>
+								<input type="hidden" name="muuid" value="${sessionScope.muuid }">
 								<input type="hidden" name="cate" value="${param.cate }">
 								<input type="hidden" name="bno" value="${param.bno }">
 								<div class="commentsBtn">
@@ -211,6 +212,5 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/comment.js"></script>
     </body>
 </html>

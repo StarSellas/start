@@ -61,17 +61,22 @@
 		WHERE bno=#{bno}
 	</update>
 
+	<delete id="imgDelete" parameterType="Map">
+		DELETE FROM boardimage WHERE bimage=#{imgDel} and bno=#{bno}
+	</delete>
+
 	<update id="boardDelete" parameterType="Map">
 		UPDATE board SET bdelete=0
 		WHERE bno=#{bno}
 	</update>
 
+	
+	<!-- ************ 댓글 ************ -->
+	
 	<select id="commentList" parameterType="Map" resultType="Map">
 		SELECT * FROM commentview
 		WHERE bno=#{bno}
 	</select>
-	
-	<!-- ************ 댓글 ************ -->
 
 	<update id="commentDelete" parameterType="Map">
 		UPDATE comment SET cdelete=0
@@ -88,8 +93,5 @@
 		WHERE cno=#{cno}
 	</update>
 	
-	<delete id="imgDelete" parameterType="Map">
-		DELETE FROM boardimage WHERE bimage=#{imgDel} and bno=#{bno}
-	</delete>
 
 </mapper>

@@ -3,9 +3,27 @@
 <mapper namespace="com.sellas.web.login.LoginDAO">
 
 <select id="login" parameterType="Map" resultType="Map">
-	SELECT muuid
+	SELECT muuid, mnickname
 	FROM member
 	WHERE mid=#{id} AND mpw=HEX(AES_ENCRYPT(#{pw}, 'sellas'))
 </select>
 
+<select id="findid" parameterType="String" resultType="String">
+	SELECT mid
+	FROM member
+	WHERE memail=#{email}
+</select>
+
+<select id="crosscheckIdAndEmail" parameterType="Map" resultType="Integer">
+	SELECT COUNT(*) as count
+	FROM member
+	WHERE mid=#{id} AND memail=#{email}
+</select>
+
+<update id="changepw" parameterType="Map">
+	UPDATE member
+	SET mpw=HEX(AES_ENCRYPT(#{pw}, 'sellas'))
+	WHERE mid=#{id} AND memail=#{email}
+</update>
+  
 </mapper>

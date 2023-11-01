@@ -27,7 +27,9 @@ public interface BoardDAO {
 	int setThumbnail(Map<String, Object> map);
 	
 	int boardEdit(Map<String, Object> map);
-
+	
+	int imgDelete(Map<String, Object> map);
+	
 	int boardDelete(Map<String, Object> map);
 
 	List<Map<String, Object>> commentList(Map<String, Object> map);
@@ -37,8 +39,6 @@ public interface BoardDAO {
 	int commentWrite(Map<String, Object> map);
 
 	int commentEdit(Map<String, Object> map);
-
-	int imgDelete(Map<String, Object> map);
 
 
 
