@@ -86,8 +86,10 @@
 					<c:if test="${exp >= 15 && exp <= 20}">고래</c:if>
 					<c:if test="${exp > 20 }">슈퍼고래</c:if>
 				</div>
-				
 				<button class=profile onclick="window.location.href='profileEdit/${sessionScope.muuid}'">프로필수정</button>
+	
+			
+			
 			</div>
 			<div class="experience-section"
 				style="position: relative; margin-top: 100px;">
@@ -99,9 +101,27 @@
 					<div class="progress-bar" style="width: ${exp}%; background-color: #88abff;">${exp}%</div>
 				</div>
 			</div>
-
+			
+			<div>받은 거래 후기</div>
+			<div class="review-div">
+			${profileReview}
+			</div>
+			<div>
+			<c:forEach items="${profileReview}" var="review">
+			<div class="movedetail" onclick="location.href='./reviewDetail?rno=${review.rno}'">
+							<div class="user-img">
+					<img src="../img/흰배경셀라스.jpg" alt="user-img" class="user-img-img">
+				</div>
+			<div>${review.mwriter}</div>
+	
+			<div>${review.rdate}</div>
+	
+			<div>${review.rcontent}</div>
+			</div>
+			</c:forEach>
+			
+			</div>
 		</div>
-
 
 	</section>
 	<!-- Footer-->

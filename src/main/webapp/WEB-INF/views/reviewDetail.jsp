@@ -21,10 +21,11 @@
 <!-- Core theme CSS (includes Bootstrap)-->
 <link href="css/styles.css" rel="stylesheet" />
 
+
 <!-- ******************* 추가 *********************** -->
 <link rel="stylesheet"
 	href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="./css/mypage.css">
+<link rel="stylesheet" href="../css/mypage.css">
 
 </head>
 <body>
@@ -69,40 +70,20 @@
 	<section class="py-5">
 
 		<div class="container px-4 px-lg-5 mt-5" style="z-index: 10">
-
-			<div class="nav">
-
-				<div class="user-img">
-					<img src="../img/흰배경셀라스.jpg" alt="user-img" class="user-img-img">
+			<div class="d-flex inside-bar align-items-center">
+				<div class="back col-auto" onclick="location.href='/profile'">
+					<i class="xi-angle-left xi-x"></i>
 				</div>
-				<div class="user-nickname">${nickname}</div>
-				<div class="user-level">
-				<c:if test="${exp < 15}">아기고래</c:if>
-								<c:if test="${exp >= 15 && exp <= 20}">고래</c:if>
-								<c:if test="${exp > 20 }">슈퍼고래</c:if>
-				</div>
-
-				<button class=profile onclick="window.location.href='profile'">프로필보기</button>
+				<div class="location col">거래후기</div>
 			</div>
+		
+					<img src="../img/흰배경셀라스.jpg" alt="user-img" class="user-img-img">
+								<div>${reviewDetail.mnickname}님이 보낸 후기가 도착했습니다.</div>
 
-<div>
-판매내역이랑 구매내역 경매내역불러오좌!!!!
-<div class="sell" onclick="location.href='./getsell'">
-판매내역
-</div>
-<div class="buy" onclick="location.href='./getbuy'">
-구매내역
-</div>
-<div class="action" onclick="location.href='./getaction'">
-경매내역
-</div>
-
-
-</div>
-		</div>
-
-
-
+			<div>${reviewDetail.mnickname}님과 거래한 물품은 [${reviewDetail.ttitle}] 입니다.</div>
+	
+			<div>${reviewDetail.rcontent}</div>
+			</div>
 
 	</section>
 	<!-- Footer-->
@@ -119,6 +100,8 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- Core theme JS-->
-	<script src="js/scripts.js"></script>
+	<script src="js/scripts.js">
+		
+	</script>
 </body>
 </html>

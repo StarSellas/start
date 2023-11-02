@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +25,7 @@
 <!-- ******************* 추가 *********************** -->
 <link rel="stylesheet"
 	href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="./css/mypage.css">
+<link rel="stylesheet" href="./css/mypageList.css">
 
 </head>
 <body>
@@ -69,40 +70,41 @@
 	<section class="py-5">
 
 		<div class="container px-4 px-lg-5 mt-5" style="z-index: 10">
-
+			<div class="d-flex inside-bar align-items-center">
+				<div class="back col-auto" onclick="location.href='/mypage'">
+					<i class="xi-angle-left xi-x"></i>
+				</div>
+				<div class="location col">판매내역</div>
+			</div>
 			<div class="nav">
 
-				<div class="user-img">
-					<img src="../img/흰배경셀라스.jpg" alt="user-img" class="user-img-img">
-				</div>
-				<div class="user-nickname">${nickname}</div>
-				<div class="user-level">
-				<c:if test="${exp < 15}">아기고래</c:if>
-								<c:if test="${exp >= 15 && exp <= 20}">고래</c:if>
-								<c:if test="${exp > 20 }">슈퍼고래</c:if>
-				</div>
-
-				<button class=profile onclick="window.location.href='profile'">프로필보기</button>
-			</div>
-
-<div>
-판매내역이랑 구매내역 경매내역불러오좌!!!!
-<div class="sell" onclick="location.href='./getsell'">
-판매내역
+			<c:forEach items="${sellList}" var="row">
+	<c:choose>
+	<c:when test="${fn:length(sellList) gt 0 }">
+<div class="card mb-3" style="max-width: 400px;">
+  <div class="row g-0" onclick="location.href='./detail?tno=${row.tno }'">
+    <div class="col-4">
+      <img src="../img/${row.timage}" class="img-fluid custom-rounded-start object-fit-cover" alt="...">
+    </div>
+    <div class="col-8">
+      <div class="card-body">
+        <h5 class="card-title">${row.ttitle}</h5>
+        <p class="card-text">${row.tnormalprice}원</p>
+        <p class="card-text"><small class="text-body-secondary">${row.tdate}</small></p>
+      </div>
+    </div>
+  </div>
+  <c:if test="${row.tnormalstate eq 2 }">
+<button class="submitbtn" type="button" onclick="location.href='./review?tno=${row.tno}'">✏️ 후기보내기</button>
+			 </c:if>
 </div>
-<div class="buy" onclick="location.href='./getbuy'">
-구매내역
+<br>
+	 </c:when>
+	<c:otherwise>판매 내역이 없어요.</c:otherwise>
+	</c:choose>
+		</c:forEach>
 </div>
-<div class="action" onclick="location.href='./getaction'">
-경매내역
 </div>
-
-
-</div>
-		</div>
-
-
-
 
 	</section>
 	<!-- Footer-->

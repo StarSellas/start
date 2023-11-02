@@ -61,9 +61,6 @@ public class MyPageController {
 		//거래후기불러오기
 		List<Map<String, Object>> profileReview = myPageService.getprofileReview(session.getAttribute("muuid"));
 		
-		System.out.println(session.getAttribute("muuid"));
-
-		
 		 model.addAttribute("nickname", session.getAttribute("mnickname"));
 		 model.addAttribute("exp", session.getAttribute("mpoint"));
 		 model.addAttribute("profileReview" , profileReview );
@@ -71,21 +68,42 @@ public class MyPageController {
 		return "profile";
 	}
 	
-
 	
+	//다른회원정보보기
+	@GetMapping("/profileMember")
+	public String profileMember(@RequestParam("muuid") String uuid, Model model, HttpSession session) {
+		
+		if(uuid == session.getAttribute("muuid")) {
+			return "profile";
+		}
+		
+		//멤버불러오기
+		Map<String, Object> member = myPageService.memberInfo(uuid);
+		model.addAttribute("nickname", member.get("mnickname"));
+		model.addAttribute("exp", member.get("mpoint"));
+		
+		//TODO 판매내역띄우기
+		
+		//거래후기
+		List<Map<String, Object>> profileReview = myPageService.getprofileReview(uuid);
+		 model.addAttribute("profileReview" , profileReview );
+		
+		
+		return "profileMember";
+	}
 	
 	
 	//TODO 사진부분 추가
 	//프로필수정(닉네임/사진)
-	@GetMapping("/profileEdit/{muuid}")
-	public String profileEdit(@PathVariable("muuid") String uuid, Model model, HttpSession session) {
-		
-		model.addAttribute("nickname", session.getAttribute("mnickname"));
-		
-		
-		return "profileEdit";
-	}
-	
+	   @GetMapping("/profileEdit/{muuid}")
+	   public String profileEdit(@PathVariable("muuid") String uuid, Model model, HttpSession session) {
+	      
+	      model.addAttribute("nickname", session.getAttribute("mnickname"));
+	      
+	      
+	      return "profileEdit";
+	   }
+	   
 	
 	/**
 	 * 닉네임 중복검사
@@ -130,9 +148,9 @@ public class MyPageController {
 
 	//거래후기글쓰기
 	@GetMapping("review")
-	public String review(@RequestParam("pno") String pno, Model model, HttpSession session) {
+	public String review(@RequestParam("tno") String tno, Model model, HttpSession session) {
 		// 구매자,판매자확인
-		ReviewDTO reviewMember = myPageService.findId(pno);
+		ReviewDTO reviewMember = myPageService.findId(tno);
 		
 		// 구매정보불러와서 화면전환
 		// 후기쓰는 자가 판매자인 경우
@@ -169,15 +187,48 @@ public class MyPageController {
 	public String reviewDetail(@RequestParam int rno, Model model, HttpSession session) {
 		
 		
-		//rno, pno, mwriter, rcontent, rdate이게 불러오는 목록에있으니까
-		//rno을 가지고와서
+		Map<String, Object> reviewDetail = myPageService.reviewDetail(rno);
 		
-		//리뷰dto에다가 남아오면..!
-		ReviewDTO reviewDetail = myPageService.reviewDetail(rno);
+		System.out.println("뭐가있는지봅시다"+reviewDetail);
+		model.addAttribute("reviewDetail", reviewDetail);
 		
 		return "reviewDetail";
+	
+	
+	}
+	
+	
+	//판매내역
+	@GetMapping("getsell")
+	public String getSell(Model model, HttpSession session) {
+		
+		String uuid = String.valueOf(session.getAttribute("muuid"));
+		
+		List<Map<String, Object>> sellList = myPageService.getSell(uuid);
+		model.addAttribute("sellList",sellList);
+		
+		return "sellList";
 		
 	}
+	
+	
+	//구매내역
+	@GetMapping("getbuy")
+	public String getBuy(Model model, HttpSession session) {
+		
+		String uuid = String.valueOf(session.getAttribute("muuid"));
+		
+		List<Map<String, Object>> buyList = myPageService.getBuy(uuid);
+		model.addAttribute("buyList",buyList);
+		
+		return "buyList";
+		
+	}
+	
+	
+	//TODO 경매내역
+	
+	
 	
 	
 	

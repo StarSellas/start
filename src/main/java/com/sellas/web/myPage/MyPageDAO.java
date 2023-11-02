@@ -11,7 +11,7 @@ public interface MyPageDAO {
 
 	int inputReview(ReviewDTO reviewDTO);
 
-	ReviewDTO findId(String pno);
+	ReviewDTO findId(String tno);
 
 	int updatePoint(ReviewDTO reviewDTO);
 
@@ -23,6 +23,10 @@ public interface MyPageDAO {
 
 	List<Map<String, Object>> getprofileReview(Object attribute);
 
-	ReviewDTO reviewDetail(int rno);
+	Map<String, Object> reviewDetail(int rno);
+
+	List<Map<String, Object>> getSell(String uuid);
+
+	List<Map<String, Object>> getBuy(String uuid);
 
 }

@@ -57,8 +57,8 @@ public class MyPageService {
 	    }
 	}
 
-	public ReviewDTO findId(String pno) {
-		return myPageDAO.findId(pno);
+	public ReviewDTO findId(String tno) {
+		return myPageDAO.findId(tno);
 	}
 
 	public Map<String, Object> memberInfo(String uuid) {
@@ -79,8 +79,16 @@ public class MyPageService {
 		return myPageDAO.getprofileReview(attribute);
 	}
 
-	public ReviewDTO reviewDetail(int rno) {
+	public Map<String, Object> reviewDetail(int rno) {
 		return myPageDAO.reviewDetail(rno);
+	}
+
+	public List<Map<String, Object>> getSell(String uuid) {
+		return myPageDAO.getSell(uuid);
+	}
+
+	public List<Map<String, Object>> getBuy(String uuid) {
+		return myPageDAO.getBuy(uuid);
 	}
 
 

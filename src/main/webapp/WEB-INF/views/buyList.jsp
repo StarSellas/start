@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +25,7 @@
 <!-- ******************* 추가 *********************** -->
 <link rel="stylesheet"
 	href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="./css/mypage.css">
+<link rel="stylesheet" href="./css/mypageList.css">
 
 </head>
 <body>
@@ -69,33 +70,39 @@
 	<section class="py-5">
 
 		<div class="container px-4 px-lg-5 mt-5" style="z-index: 10">
-
-			<div class="nav">
-
-				<div class="user-img">
-					<img src="../img/흰배경셀라스.jpg" alt="user-img" class="user-img-img">
+					<div class="d-flex inside-bar align-items-center">
+				<div class="back col-auto" onclick="location.href='/mypage'">
+					<i class="xi-angle-left xi-x"></i>
 				</div>
-				<div class="user-nickname">${nickname}</div>
-				<div class="user-level">
-				<c:if test="${exp < 15}">아기고래</c:if>
-								<c:if test="${exp >= 15 && exp <= 20}">고래</c:if>
-								<c:if test="${exp > 20 }">슈퍼고래</c:if>
-				</div>
-
-				<button class=profile onclick="window.location.href='profile'">프로필보기</button>
+				<div class="location col">구매내역</div>
 			</div>
-
-<div>
-판매내역이랑 구매내역 경매내역불러오좌!!!!
-<div class="sell" onclick="location.href='./getsell'">
-판매내역
-</div>
-<div class="buy" onclick="location.href='./getbuy'">
-구매내역
-</div>
-<div class="action" onclick="location.href='./getaction'">
-경매내역
-</div>
+			<div class="nav">
+		<c:forEach items="${buyList}" var="row">
+	<c:choose>
+	<c:when test="${fn:length(buyList) gt 0 }">
+	<table>
+		<tr>
+			<th class ="rr1">안녕</th>
+			<th>구매물품</th>
+			<th>이미지</th>
+			<th>금액</th>
+		</tr>
+			<tr onclick="location.href='./detail?pno=${row.pno }'">
+			<td><img src="../img/${row.timage}" alt="user-img" class="sdas"></td>
+				<td class="td1">${row.tno}</td>
+				<td class="title">${row.ttitle}</td>
+				<td class="td2">${row.tnormalprice}</td>
+				<td>${row.tnormalstate}</td>
+			</tr>
+	</table>
+		<br>
+	 </c:when>
+	<c:otherwise>구매 내역이 없어요.</c:otherwise>
+	</c:choose>
+<c:if test="${row.tnormalstate eq 2 }">
+<button type="button" onclick="location.href='./review?tno=${row.tno}'">후기쓰러가기</button>
+			 </c:if>
+		</c:forEach>
 
 
 </div>
