@@ -1,13 +1,20 @@
 package com.sellas.web.util;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Component
 public class Util {
 
+	/* 이메일 인증 */
+	
+	// 인증번호 생성
 	public String createCode() {
 		
 		String charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
@@ -21,6 +28,7 @@ public class Util {
 		return code;
 	}
 	
+	// 인증번호 발신
 	public void sendVerificationCode(String addr, String code) throws EmailException {
 		
 		HtmlEmail email = new HtmlEmail();
@@ -43,5 +51,12 @@ public class Util {
 		email.setAuthenticator(new DefaultAuthenticator("nexp95@outlook.kr", "alstjd12"));
 		//email.send();
 	}
+	
+	/* 로그인 확인 */
+	public boolean checkLogin() {
 		
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
+
+		return session.getAttribute("muuid") != null;
+	}
 }

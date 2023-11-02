@@ -17,6 +17,7 @@ public class TradeService {
 	@Autowired
 	private TradeDAO tradeDAO;
 	
+	
 	/* 거래 물품 등록 */
 	
 	// 아이템 카테고리 목록
