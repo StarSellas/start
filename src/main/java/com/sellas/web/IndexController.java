@@ -10,10 +10,10 @@ public class IndexController {
 	public String index() {
 		return "main";
 	}
-
-	@GetMapping("default")
-	public String basic() {
-		return "default";
-	}	
+	
+	@GetMapping("menu")
+	public String menu() {
+		return "menu";
+	}
 
 }
