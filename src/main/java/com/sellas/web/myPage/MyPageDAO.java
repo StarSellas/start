@@ -1,6 +1,8 @@
 package com.sellas.web.myPage;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,5 +20,9 @@ public interface MyPageDAO {
 	int isNicknameExists(String newNickname);
 
 	int nicknameModify(Map<String, Object> map);
+
+	List<Map<String, Object>> getprofileReview(Object attribute);
+
+	ReviewDTO reviewDetail(int rno);
 
 }

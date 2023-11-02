@@ -1,6 +1,8 @@
 package com.sellas.web.myPage;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import retrofit2.http.GET;
+
 
 @Controller
 public class MyPageController {
@@ -36,14 +39,16 @@ public class MyPageController {
 			return "login";
 		}
 		
-		 session.setAttribute("mnickname", member.get("mnickname"));
 		 session.setAttribute("mpoint", member.get("mpoint"));
 		 model.addAttribute("nickname", session.getAttribute("mnickname"));
 		 model.addAttribute("exp", session.getAttribute("mpoint"));
 		 
 		return "mypage";
 	}
+	
+	
 
+	//TODO 화면부분
 	@GetMapping("/profile")
 	public String profile(Model model, HttpSession session) {
 		
@@ -52,17 +57,31 @@ public class MyPageController {
 			return "login";
 		}
 		
+		
+		//거래후기불러오기
+		List<Map<String, Object>> profileReview = myPageService.getprofileReview(session.getAttribute("muuid"));
+		
+		System.out.println(session.getAttribute("muuid"));
+
+		
 		 model.addAttribute("nickname", session.getAttribute("mnickname"));
 		 model.addAttribute("exp", session.getAttribute("mpoint"));
+		 model.addAttribute("profileReview" , profileReview );
 
 		return "profile";
 	}
 	
+
+	
+	
+	
+	//TODO 사진부분 추가
 	//프로필수정(닉네임/사진)
 	@GetMapping("/profileEdit/{muuid}")
 	public String profileEdit(@PathVariable("muuid") String uuid, Model model, HttpSession session) {
 		
 		model.addAttribute("nickname", session.getAttribute("mnickname"));
+		
 		
 		return "profileEdit";
 	}
@@ -76,7 +95,8 @@ public class MyPageController {
     @PostMapping("/profileEdit/isNicknameExists")
     @ResponseBody
     public int isNicknameExists(@RequestParam("newNickname") String newNickname) {
-	int result = myPageService.isNicknameExists(newNickname); 	
+	int result = myPageService.isNicknameExists(newNickname);
+	
     	return result;
     }
 	
@@ -88,10 +108,25 @@ public class MyPageController {
     	System.out.println("뭐있음?"+map);
     	map.put("uuid",session.getAttribute("muuid"));
     	int result = myPageService.nicknameModify(map);
+    	
+    	
+    	//닉네임 변경 성공시 세션에 새닉네임 넣어줌
+    	if(result == 1) {
+    		session.setAttribute("mnickname",map.get("newNickname"));
+    		
+    	}
+    	
 
       return result;
     }
 	
+    /**
+     * 거래후기불러오기
+     * @param pno
+     * @param model
+     * @param session
+     * @return
+     */
 
 	//거래후기글쓰기
 	@GetMapping("review")
@@ -113,6 +148,7 @@ public class MyPageController {
 	}
 
 	
+	//후기작성등록
 	@PostMapping("review")
 	public String review(ReviewDTO reviewDTO, HttpSession session) {
 
@@ -124,8 +160,29 @@ public class MyPageController {
 		} else {
 			return "profile";
 		}
-
-
 	}
+	
+	
+	//후기디테일
+	//후기상세페이지
+	@GetMapping("reviewDetail")
+	public String reviewDetail(@RequestParam int rno, Model model, HttpSession session) {
+		
+		
+		//rno, pno, mwriter, rcontent, rdate이게 불러오는 목록에있으니까
+		//rno을 가지고와서
+		
+		//리뷰dto에다가 남아오면..!
+		ReviewDTO reviewDetail = myPageService.reviewDetail(rno);
+		
+		return "reviewDetail";
+		
+	}
+	
+	
+	
+	
+	
+
 
 }

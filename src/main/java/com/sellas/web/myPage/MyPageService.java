@@ -1,6 +1,8 @@
 package com.sellas.web.myPage;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +20,6 @@ public class MyPageService {
 	@Transactional(rollbackFor = Exception.class)
 	public int inputReview(ReviewDTO reviewDTO, HttpSession session) {
 		
-		System.out.println("세션에 내 uuid있나요?"+session.getAttribute("muuid"));
 		   String uuid = String.valueOf(session.getAttribute("muuid"));
 		    reviewDTO.setMuuid(uuid);
 		
@@ -28,8 +29,10 @@ public class MyPageService {
 	        reviewDTO.setRpoint(rpoint);
 	        
 	        //상대방의 uuid가져오기
+	        //세션에 저장된 uuid가 파는사람의 uuid와 같다면
 	        if(uuid.equals(reviewDTO.getPseller())) {
 	        	String targetMember = reviewDTO.getPbuyer();
+	        	//평점 올려줄 멤버에 산 사람 uuid를 넣어주세요.
 	        	reviewDTO.setTargetMember(targetMember);
 	        	
 	        } else {
@@ -37,6 +40,8 @@ public class MyPageService {
 	        	reviewDTO.setTargetMember(targetMember);
 	        	
 	        }
+	        
+	        System.out.println("상대방"+reviewDTO.getTargetMember());
 	        
 	        int resultInput = myPageDAO.inputReview(reviewDTO);
 	        int resultUpdate = myPageDAO.updatePoint(reviewDTO);
@@ -68,6 +73,14 @@ public class MyPageService {
 	public int nicknameModify(Map<String, Object> map) {
 
 		return myPageDAO.nicknameModify(map);
+	}
+
+	public List<Map<String, Object>> getprofileReview(Object attribute) {
+		return myPageDAO.getprofileReview(attribute);
+	}
+
+	public ReviewDTO reviewDetail(int rno) {
+		return myPageDAO.reviewDetail(rno);
 	}
 
 
