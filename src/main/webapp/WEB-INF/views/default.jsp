@@ -19,50 +19,41 @@
         
         <!-- ******************* 추가 *********************** -->
         <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-        <link href="css/   " rel="stylesheet">
         <script src="./js/jquery-3.7.0.min.js"></script>
         
     </head>
     <body>
 	<!-- Navigation-->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light"
-		style="z-index: 10">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="z-index: 10">
 		<div class="container px-4 px-lg-5">
 			<a class="navbar-brand" href="/">SellAS</a>
-            <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent"><a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
+			<c:choose>
+				<c:when test="${sessionScope.muuid eq null}">
+					<a href="/login">로그인</a>
+				</c:when>
+				<c:otherwise>
+					<span>${sessionScope.mnickname} 로그인완</span>
+				</c:otherwise>
+			</c:choose>
+			<button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent">
+				<a href="/menu"><img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a>
+			</button>
 		</div>
 	</nav>
-	<!-- Header-->
-        <header>
 
-        </header>
-        <!-- Section-->
-        <section class="py-5">
-        
-            <div class="container px-4 px-lg-5 mt-5" style="z-index: 10" id="productContainer">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    
-                    
-                   
-                   
-                   
-                </div>
-            </div>
-            
-        </section>
-        <!-- Footer-->
+
+
+	<!-- Footer-->
         <footer id="footer">
             <div class="container">
 	            <ul class="menubar">
 	            	<li onclick="location.href='./'"><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
-	            	<li><i class="xi-message xi-2x"></i><div id="menu">채팅</div></li>
-	            	<li><i class="xi-profile xi-2x"></i><div id="menu">마이페이지</div></li>
+	            	<li onclick="location.href='#'"><i class="xi-message xi-2x"></i><div id="menu">채팅</div></li>
+	            	<li onclick="location.href='#'"><i class="xi-profile xi-2x"></i><div id="menu">마이페이지</div></li>
 	            </ul>
             </div>
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
     </body>
 </html>

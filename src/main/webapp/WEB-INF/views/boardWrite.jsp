@@ -44,22 +44,78 @@
 					
 				})      		
         	});
+        	
+        	// 이미지 업로드
+        	  $(function() {
+  	        	
+  	            var maxPhotos = 3;
+  	            var nextPhotoId = 1;
+  	
+  	            $("#addPhotoButton").click(function () {
+  	                
+  	            	//console.log("떠라");
+  	            	
+  	            	if (nextPhotoId <= maxPhotos) {
+  	                    var newInput = $("<input type='file' name='boardimg' class='boardimg' id='boardimg" + nextPhotoId + "'>");
+  	                    //var newPreview = $("<img class='imagePreview' id='imagePreview" + nextPhotoId + "' src='' alt='미리보기 이미지'>");
+  	                    $("#photoInputs").append(newInput);
+  	                    //$("#imagePreviews").append(newPreview);
+  							
+  	                       newInput.change(function () {
+  	                        resizeImage(this, 200, 200, function (resizedDataUrl) {
+  	                            var previewId = this.id.replace("boardimg", "imagePreview");
+  	                            var preview = $("#" + previewId);
+  	                            preview.attr("src", resizedDataUrl);
+  	                        }.bind(this));
+  	                    });
+
+  	                    nextPhotoId++;
+  	                } else {
+  	                    alert("더 이상 사진을 추가할 수 없습니다.");
+  	                }
+  	            });
+  	            
+  	        });
+  	        
+  	        function resizeImage(input, maxWidth, maxHeight, callback) {
+  	            if (input.files && input.files[0]) {
+  	                var reader = new FileReader();
+
+  	                reader.onload = function (e) {
+  	                    var image = new Image();
+  	                    image.src = e.target.result;
+
+  	                    image.onload = function () {
+  	                        var width = image.width;
+  	                        var height = image.height;
+
+  	                        if (width > maxWidth || height > maxHeight) {
+  	                            var ratio = Math.min(maxWidth / width, maxHeight / height);
+  	                            width *= ratio;
+  	                            height *= ratio;
+  	                        }
+
+  	                        var canvas = document.createElement("canvas");
+  	                        canvas.width = width;
+  	                        canvas.height = height;
+  	                        var ctx = canvas.getContext("2d");
+  	                        ctx.drawImage(image, 0, 0, width, height);
+
+  	                        var resizedDataUrl = canvas.toDataURL("image/jpeg");
+  	                        callback(resizedDataUrl);
+  	                    };
+  	                };
+
+  	                reader.readAsDataURL(input.files[0]);
+  	            }
+  	        }
+          
         </script>
         
     </head>
     <body>
-	<!-- Navigation-->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light"
-		style="z-index: 10">
-		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="">SellAS</a>
-            <button class="navbar-toggler" type="button" data-bs-target="" aria-controls="navbarSupportedContent">sname<img src="../img/menuIcon.png" id="menuIcon" alt="menuIcon"></a></button>
-		</div>
-	</nav>
-	<!-- Header-->
-        <header>
-			<h1>글쓰기페이지</h1>
-        </header>
+	<%@ include file="menubar.jsp" %>
+	
         <!-- Section-->
         <section class="py-5">
         
@@ -121,91 +177,11 @@
 						</form>
 					</div>
 					
-					
 				</div>
             </div>
             
         </section>
-        <!-- Footer-->
-        <footer id="footer">
-            <div class="container">
-	            <ul class="menubar">
-	            	<li><i class="xi-home xi-2x"></i><div id="menu">홈</div></li>
-	            	<li><i class="xi-message xi-2x"></i><div id="menu">채팅</div></li>
-	            	<li><i class="xi-profile xi-2x"></i><div id="menu">마이페이지</div></li>
-	            </ul>
-            </div>
-        </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        <script type="text/javascript">
-        
-      	  $(function() {
-	        	
-	            var maxPhotos = 3;
-	            var nextPhotoId = 1;
-	
-	            $("#addPhotoButton").click(function () {
-	                
-	            	//console.log("떠라");
-	            	
-	            	if (nextPhotoId <= maxPhotos) {
-	                    var newInput = $("<input type='file' name='boardimg' class='boardimg' id='boardimg" + nextPhotoId + "'>");
-	                    //var newPreview = $("<img class='imagePreview' id='imagePreview" + nextPhotoId + "' src='' alt='미리보기 이미지'>");
-	                    $("#photoInputs").append(newInput);
-	                    //$("#imagePreviews").append(newPreview);
-							
-	                       newInput.change(function () {
-	                        resizeImage(this, 200, 200, function (resizedDataUrl) {
-	                            var previewId = this.id.replace("boardimg", "imagePreview");
-	                            var preview = $("#" + previewId);
-	                            preview.attr("src", resizedDataUrl);
-	                        }.bind(this));
-	                    });
-
-	                    nextPhotoId++;
-	                } else {
-	                    alert("더 이상 사진을 추가할 수 없습니다.");
-	                }
-	            });
-	            
-	        });
-	        
-	        function resizeImage(input, maxWidth, maxHeight, callback) {
-	            if (input.files && input.files[0]) {
-	                var reader = new FileReader();
-
-	                reader.onload = function (e) {
-	                    var image = new Image();
-	                    image.src = e.target.result;
-
-	                    image.onload = function () {
-	                        var width = image.width;
-	                        var height = image.height;
-
-	                        if (width > maxWidth || height > maxHeight) {
-	                            var ratio = Math.min(maxWidth / width, maxHeight / height);
-	                            width *= ratio;
-	                            height *= ratio;
-	                        }
-
-	                        var canvas = document.createElement("canvas");
-	                        canvas.width = width;
-	                        canvas.height = height;
-	                        var ctx = canvas.getContext("2d");
-	                        ctx.drawImage(image, 0, 0, width, height);
-
-	                        var resizedDataUrl = canvas.toDataURL("image/jpeg");
-	                        callback(resizedDataUrl);
-	                    };
-	                };
-
-	                reader.readAsDataURL(input.files[0]);
-	            }
-	        }
-        
-        </script>
     </body>
 </html>

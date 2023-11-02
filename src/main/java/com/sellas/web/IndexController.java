@@ -15,6 +15,11 @@ public class IndexController {
 	public String menu() {
 		return "menu";
 	}
+	
+	@GetMapping("/menubar")
+	public String menubar() {
+		return "menubar";
+	}
 
 	@GetMapping("default")
 	public String basic() {
