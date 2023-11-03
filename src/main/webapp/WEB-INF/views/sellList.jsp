@@ -82,21 +82,35 @@
 	<c:choose>
 	<c:when test="${fn:length(sellList) gt 0 }">
 <div class="card mb-3" style="max-width: 400px;">
-  <div class="row g-0" onclick="location.href='./detail?tno=${row.tno }'">
+  <div class="row g-0" onclick="location.href='./detail?tno=${row.tno}'">
     <div class="col-4">
       <img src="../img/${row.timage}" class="img-fluid custom-rounded-start object-fit-cover" alt="...">
     </div>
     <div class="col-8">
       <div class="card-body">
         <h5 class="card-title">${row.ttitle}</h5>
-        <p class="card-text">${row.tnormalprice}원</p>
-        <p class="card-text"><small class="text-body-secondary">${row.tdate}</small></p>
+		<p class="card-text">
+  <p class="card-text">
+        <fmt:formatNumber value="${row.tnormalprice}" pattern="#,###원"/>
+    </p>
+    <p class="card-text">
+        <small class="text-body-secondary">
+   ${row.tdate}
+        </small>
+    </p>
       </div>
     </div>
   </div>
-  <c:if test="${row.tnormalstate eq 2 }">
-<button class="submitbtn" type="button" onclick="location.href='./review?tno=${row.tno}'">✏️ 후기보내기</button>
-			 </c:if>
+<c:if test="${row.tnormalstate eq 2 }">
+    <c:choose>
+        <c:when test="${row.tno eq hasReview.tno}">
+            <button class="submitbtn" type="button" onclick="location.href='./reviewDetail?rno=${hasReview.rno}'">🐋 후기보러가기</button>
+        </c:when>
+        <c:otherwise>
+            <button class="submitbtn" type="button" onclick="location.href='./review?tno=${row.tno}'">✏️ 후기작성하기</button>
+        </c:otherwise>
+    </c:choose>
+</c:if>
 </div>
 <br>
 	 </c:when>

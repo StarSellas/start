@@ -165,7 +165,7 @@ public class MyPageController {
 
 	}
 
-	
+	//TODO 전환페이지 다시만들기
 	//후기작성등록
 	@PostMapping("review")
 	public String review(ReviewDTO reviewDTO, HttpSession session) {
@@ -186,6 +186,8 @@ public class MyPageController {
 	@GetMapping("reviewDetail")
 	public String reviewDetail(@RequestParam int rno, Model model, HttpSession session) {
 		
+	
+		
 		
 		Map<String, Object> reviewDetail = myPageService.reviewDetail(rno);
 		
@@ -203,14 +205,18 @@ public class MyPageController {
 	public String getSell(Model model, HttpSession session) {
 		
 		String uuid = String.valueOf(session.getAttribute("muuid"));
-		
+
+		//판매내역불러오기
 		List<Map<String, Object>> sellList = myPageService.getSell(uuid);
 		model.addAttribute("sellList",sellList);
+		
 		
 		return "sellList";
 		
 	}
 	
+	
+
 	
 	//구매내역
 	@GetMapping("getbuy")
@@ -218,6 +224,8 @@ public class MyPageController {
 		
 		String uuid = String.valueOf(session.getAttribute("muuid"));
 		
+		
+		//구매진짜한것만
 		List<Map<String, Object>> buyList = myPageService.getBuy(uuid);
 		model.addAttribute("buyList",buyList);
 		

@@ -9,6 +9,8 @@ WHERE tno=#{tno} AND pstate=0
 
 </select>
 
+
+
 <insert id="inputReview" parameterType="com.sellas.web.myPage.ReviewDTO">
 INSERT INTO review (pno, mwriter, rcontent, rpoint, mtarget)
 VALUES(#{pno}, #{muuid}, #{rcontent}, #{rpoint},#{targetMember})
@@ -61,17 +63,24 @@ WHERE rno=#{rno}
 SELECT t.tno, t.ttitle, t.tnormalprice, t.tnormalstate, t.tdate, ti.timage
 FROM trade t
 JOIN tradeimage ti ON t.tno = ti.tno
-WHERE t.muuid =#{uuid} AND ti.tthumbnail = 0;
+WHERE t.muuid =#{uuid} AND ti.tthumbnail = 0
+</select>
+
+<select id="hasReview" parameterType="String" resultType="Map">
+SELECT r.rno, r.pno, p.tno
+FROM review r
+JOIN payment p ON r.pno = p.pno
+JOIN trade t ON p.tno= t.tno
+WHERE mwriter=#{uuid}
 </select>
 
 
-
 <select id="getBuy" parameterType="String" resultType="Map">
-SELECT pno, penddate, t.tno, t.ttitle, t.tnormalprice, ti.timage, t.tnormalstate
+SELECT pno, penddate, t.tno, t.ttitle, t,tdate, t.tnormalprice, ti.timage, t.tnormalstate
 FROM payment p
 JOIN trade t ON p.tno = t.tno
 JOIN tradeimage ti ON t.tno = ti.tno
-WHERE pbuyer=#{uuid} AND pstate = 0 AND ti.tthumbnail = 0;
+WHERE pbuyer=#{uuid} AND pstate = 0 AND ti.tthumbnail = 0
 </select>
 
 

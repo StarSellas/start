@@ -29,4 +29,6 @@ public interface MyPageDAO {
 
 	List<Map<String, Object>> getBuy(String uuid);
 
+	Map<String, Object> hasReview(String uuid);
+
 }

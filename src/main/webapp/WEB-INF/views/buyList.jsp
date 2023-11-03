@@ -93,8 +93,10 @@
 				<td class="title">${row.ttitle}</td>
 				<td class="td2">${row.tnormalprice}</td>
 				<td>${row.tnormalstate}</td>
+				<fmt:formatDate value="${row.tdate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 			</tr>
 	</table>
+				${row.tdate}
 		<br>
 	 </c:when>
 	<c:otherwise>구매 내역이 없어요.</c:otherwise>

@@ -91,6 +91,13 @@ public class MyPageService {
 		return myPageDAO.getBuy(uuid);
 	}
 
+	public Map<String, Object> hasReview(String uuid) {
+		
+		return myPageDAO.hasReview(uuid);
+	}
+
+	
+	
 
 	
 
